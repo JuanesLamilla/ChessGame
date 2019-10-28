@@ -1,6 +1,7 @@
 #import pieces
 import numpy as np
 
+
 class Board(object):
     """
     The chess board where the piece movement will occur.
@@ -9,15 +10,15 @@ class Board(object):
     curTurn:
         Represents the player who has the current move. ('B' or 'W')
     board:
-        Represents the game board in a 8x8 Python list. 
+        Represents the game board in a 8x8 Python list.
     """
 
     def __init__(self):
         """
-        Initializes the Chess Board to value self.board. 
+        Initializes the Chess Board to value self.board.
         The first player to begin the game will be 'W'.
         """
-        self.curTurn = 'W'
+        self.cur_turn = 'W'
         self.board = self.create_board()
 
 
@@ -26,7 +27,6 @@ class Board(object):
         Returns a list of valid moves for the piece at a given coordinate
         """
         #TODO Implement wrt. Pieces class
-
 
     def move(self, old_coord, new_coord):
         """
@@ -46,7 +46,7 @@ class Board(object):
         Prints the Chess Board in matrix format.
         Utilized numpy array to format 2d list to matrix format
         """
-        return str(np.matrix(self.board))     
+        return str(np.matrix(self.board))
 
 
     def create_board(self):
@@ -60,7 +60,7 @@ class Board(object):
 
         board = [[0 for y in range(8)] for x in range(8)]
 
-        #Placing the Rooks 
+        #Placing the Rooks
 
         board[0][0] = 'B_R'
         board[0][7] = 'B_R'
@@ -96,7 +96,7 @@ class Board(object):
             board[6][i] = 'W_P'
 
         return board
-    
+
 
 #For Testing
 if __name__ == '__main__':
@@ -104,5 +104,5 @@ if __name__ == '__main__':
 
     #Moving pawn two spaces
     #chess_board.move((6,0), (4,0))
-    
+
     #print(repr(chess_board))
