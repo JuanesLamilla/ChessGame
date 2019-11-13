@@ -26,18 +26,146 @@ class Board(object):
         """
         Returns a list of valid moves for the piece at a given coordinate
         """
+
+        coord_piece = self.return_valid_piece(coordinate)
+
+        #if user tries to chose other player's piece
+        if coord_piece.colour != self.cur_turn:
+            raise ValueError("Please select your piece only")
+
+        else:
+
+            if isinstance(coord_piece, pieces.Pawn):
+                return self.get_pawn_moves(coordinate)
+
+        #other cases #TODO
+
+    
+    def get_pawn_moves(self, coordinate):
+        """
+        Returns a list of valid moves for the pawn piece at a given coordinate
+        """
+
+        cur_x = coordinate[0]
+        cur_y = coordinate[1]
+        cur_pawn = self.board[cur_x][cur_y]
+
+        valid_moves = []
+
+        #if player Black
+        if self.cur_turn == 'B':
+
+            #case for pawn's first move
+            if cur_pawn._start:
+                for i in range(cur_x + 1, cur_x + 3):
+                    potential_coord = (i, cur_y)
+
+                    if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                        valid_moves.append(potential_coord)
+            
+            #case for pawn's 2nd move and beyond
+            else:
+                potential_coord = (cur_x+1, cur_y)
+
+                if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                    valid_moves.append(potential_coord)
+
+            #if there is a black piece located diagnoally: 
+
+            if self.is_boundary((cur_x+1, cur_y +1)):
+                potential_piece = self.return_valid_piece((cur_x+1, cur_y+1))
+                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
+                    valid_moves.append((cur_x+1, cur_y+1))
+
+            if self.is_boundary((cur_x+1, cur_y -1)):
+                potential_piece = self.return_valid_piece((cur_x+1, cur_y-1))
+                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
+                    valid_moves.append((cur_x+1, cur_y-1))
+                
+        #if player white
+
+        else:
+
+            #case for pawn's first move
+            if cur_pawn._start:
+                for i in range(cur_x -2, cur_x):
+                    potential_coord = (i, cur_y)
+
+                    if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                        valid_moves.append(potential_coord)
+            
+            #case for pawn's 2nd move and beyond
+            else:
+                potential_coord = (cur_x-1, cur_y)
+
+                if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                    valid_moves.append(potential_coord)
+
+            #if there is a black piece located diagnoally: 
+
+            if self.is_boundary((cur_x-1, cur_y -1)):
+                potential_piece = self.return_valid_piece((cur_x-1, cur_y-1))
+                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
+                    valid_moves.append((cur_x-1, cur_y-1))
+
+            if self.is_boundary((cur_x-1, cur_y +1)):
+                potential_piece = self.return_valid_piece((cur_x-1, cur_y+1))
+                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
+                    valid_moves.append((cur_x-1, cur_y+1))
+
+        return valid_moves
+
+    def is_blocked(self, coordinate, is_pawn):
+        """
+        Check to see if piece at coordinate is a potential blocking move. 
+        """
         cur_x = coordinate[0]
         cur_y = coordinate[1]
 
-        #if user tries to choose empty piece
-        if self.board[cur_x][cur_y] == 0:
-            raise ValueError("Please select a tile with your piece.")
+        piece = self.board[cur_x][cur_y]
 
-        #if user tries to chose other player's piece
-        if self.board[cur_x][cur_y].colour != self.cur_turn:
-            raise ValueError("Please select your piece only")
+        #If nothing at coordinate, then it's a safe move. 
+        if piece == 0:
+            return False
 
-        #other cases #TODO
+        else:
+            
+            #action passed if its a pawn - it can't attack straight on. 
+            if is_pawn:
+                return True
+
+            elif piece.colour == self.cur_turn:
+                return True
+
+
+    def is_boundary(self, coordinate):
+        """
+        Checks to see if coordinate is in boundary of the board
+        """
+        cur_x = coordinate[0]
+        cur_y = coordinate[1]
+
+        if cur_x < 0 or cur_x > 7 or cur_y < 0 or cur_y > 7:
+            return False
+
+        else: 
+            return True        
+
+
+    def return_valid_piece(self, coordinate):
+        """
+        Returns a piece at the coordinate - only if belonging to current player. 
+        """
+
+        cur_x = coordinate[0]
+        cur_y = coordinate[1]
+        
+        #if coordinate contains a piece
+        if self.board[cur_x][cur_y] != 0:
+            return self.board[cur_x][cur_y]
+
+        else:
+            return 0
 
 
     def move(self, old_coord, new_coord):
@@ -52,6 +180,9 @@ class Board(object):
 
         self.board[new_x][new_y] = self.board[old_x][old_y]
         self.board[old_x][old_y] = 0
+
+        if isinstance(self.board[new_x][new_y], pieces.Pawn): 
+            self.board[new_x][new_y].made_first_move()
 
     def __repr__(self):
         """
@@ -114,10 +245,29 @@ class Board(object):
 if __name__ == '__main__':
     chess_board = Board()
 
-    #Moving pawn two spaces
-    chess_board.move((6,0), (4,0))
+    #Moving black pieces to vulnerable positions to be attacked by white pawn
+    #chess_board.move((1,2), (5,2))
+    #chess_board.move((1,3), (5,0))
 
-    print(isinstance(chess_board.board[4][0], pieces.Pawn))
-    print(chess_board.board[4][0].colour)
+    #get the valid move for pawn located at (6,1)
+    #print(chess_board.get_valid_moves((6,1)))
+
+    #check case when pawn has already moved
+    #chess_board.move((6,1), (4,1))
+    #print(chess_board.get_valid_moves((4,1)))
+
+    #Testing black's Pawn
+    chess_board.cur_turn = 'B'
+
+    #Moving white spaces to vulnerable positions to be attacked by black pawn
+    chess_board.move((6,1), (2,2))
+    chess_board.move((6,0), (2,0))
+
+    #get the valid move for pawn located at (6,1)
+    print(chess_board.get_valid_moves((1,2)))
+
+    #print(chess_board.get_valid_moves((1,1)))
+    #chess_board.move((1,2), (2,2))
+
 
     #print(repr(chess_board))
