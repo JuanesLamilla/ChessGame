@@ -1,3 +1,6 @@
+from math import sqrt
+
+
 class Piece:
     """A chess piece located on the chess board.
 
@@ -12,14 +15,14 @@ class Piece:
         """
         self.colour = colour
 
-    def check_valid_move(self, current_location: tuple[int, int],
-                         attempted_location: tuple[int, int]) -> bool:
+    def check_valid_move(self, current_location: tuple,
+                         attempted_location: tuple) -> bool:
         """Returns true iff the attempted move for the piece is valid.
         For both current_location and attempted_location,
         .._location[0] is the x coordinate and
         .._location[1] is the y coordinate.
         """
-    raise NotImplementedError
+        raise NotImplementedError
 
 
 class Pawn(Piece):
@@ -38,11 +41,11 @@ class Pawn(Piece):
     _start: bool
 
     def __init__(self, colour: str) -> None:
-        Piece.__init__(colour)
+        Piece.__init__(self, colour)
         self._start = True
 
-    def check_valid_move(self, current_location: tuple[int, int],
-                         attempted_location: tuple[int, int]) -> bool:
+    def check_valid_move(self, current_location: tuple,
+                         attempted_location: tuple) -> bool:
         """If the pawn has yet to move, return true if the attempted_location
         is one or two spaces forward. If the pawn has already moved, return
         true if the attempted_location is only one space forward.
@@ -71,10 +74,10 @@ class Knight(Piece):
     colour: str
 
     def __init__(self, colour: str) -> None:
-        Piece.__init__(colour)
+        Piece.__init__(self, colour)
 
-    def check_valid_move(self, current_location: tuple[int, int],
-                         attempted_location: tuple[int, int]) -> bool:
+    def check_valid_move(self, current_location: tuple,
+                         attempted_location: tuple) -> bool:
         """Return true iff the attempted_location is two spaces in any
         direction and the one space to either side. Return false otherwise."""
 
@@ -116,10 +119,10 @@ class Rook(Piece):
     colour: str
 
     def __init__(self, colour: str) -> None:
-        Piece.__init__(colour)
+        Piece.__init__(self, colour)
 
-    def check_valid_move(self, current_location: tuple[int, int],
-                         attempted_location: tuple[int, int]) -> bool:
+    def check_valid_move(self, current_location: tuple,
+                         attempted_location: tuple) -> bool:
         """Return true iff attempted_location is on the same x or y plane
         as current_location."""
 
@@ -140,10 +143,10 @@ class Bishop(Piece):
     colour: str
 
     def __init__(self, colour: str) -> None:
-        Piece.__init__(colour)
+        Piece.__init__(self, colour)
 
-    def check_valid_move(self, current_location: tuple[int, int],
-                         attempted_location: tuple[int, int]) -> bool:
+    def check_valid_move(self, current_location: tuple,
+                         attempted_location: tuple) -> bool:
         """Return true iff attempted_location is diagonal on the board
         to current_location. Return False otherwise."""
 
@@ -166,10 +169,10 @@ class Queen(Piece):
     colour: str
 
     def __init__(self, colour: str) -> None:
-        Piece.__init__(colour)
+        Piece.__init__(self, colour)
 
-    def check_valid_move(self, current_location: tuple[int, int],
-                         attempted_location: tuple[int, int]) -> bool:
+    def check_valid_move(self, current_location: tuple,
+                         attempted_location: tuple) -> bool:
         """Return true iff attempted_location is diagonal on the board
         or one space in any direction from current_location.
         Return false otherwise."""
@@ -200,10 +203,10 @@ class King(Piece):
     colour: str
 
     def __init__(self, colour: str) -> None:
-        Piece.__init__(colour)
+        Piece.__init__(self, colour)
 
-    def check_valid_move(self, current_location: tuple[int, int],
-                         attempted_location: tuple[int, int]) -> bool:
+    def check_valid_move(self, current_location: tuple,
+                         attempted_location: tuple) -> bool:
         """Return true iff attempted_location is one space away from
         current_location in any direction."""
         if current_location[0] - 1 <= \
