@@ -38,6 +38,9 @@ class Board(object):
             if isinstance(coord_piece, pieces.Pawn):
                 return self.get_pawn_moves(coordinate)
 
+            if isinstance(coord_piece, pieces.Knight):
+                return self.get_knight_moves(coordinate)
+
         #other cases #TODO
 
     
@@ -114,6 +117,47 @@ class Board(object):
                     valid_moves.append((cur_x-1, cur_y+1))
 
         return valid_moves
+
+    def get_knight_moves(self, coordinate):
+        """
+        Returns a list of valid moves for the knight piece at a given coordinate
+        """
+
+        cur_x = coordinate[0]
+        cur_y = coordinate[1]
+
+        valid_moves = []
+
+        #fwd left cases
+        if self.is_boundary((cur_x-2, cur_y-1)) and not self.is_blocked((cur_x-2, cur_y-1), False):
+            valid_moves.append((cur_x-2, cur_y-1))
+
+        if self.is_boundary((cur_x-1, cur_y-2)) and not self.is_blocked((cur_x-1, cur_y-2), False):
+            valid_moves.append((cur_x-1, cur_y-2))
+
+        #fwd right cases
+        if self.is_boundary((cur_x-2, cur_y+1)) and not self.is_blocked((cur_x-2, cur_y+1), False):
+            valid_moves.append((cur_x-2, cur_y+1))
+
+        if self.is_boundary((cur_x-1, cur_y+2)) and not self.is_blocked((cur_x-1, cur_y+2), False):
+            valid_moves.append((cur_x-1, cur_y+2))
+
+        #bwrd left cases
+        if self.is_boundary((cur_x+2, cur_y-1)) and not self.is_blocked((cur_x+2, cur_y-1), False):
+            valid_moves.append((cur_x+2, cur_y-1))
+
+        if self.is_boundary((cur_x+1, cur_y-2)) and not self.is_blocked((cur_x+1, cur_y-2), False):
+            valid_moves.append((cur_x+1, cur_y-2))
+
+        #bwrd right cases
+        if self.is_boundary((cur_x+2, cur_y+1)) and not self.is_blocked((cur_x+2, cur_y+1), False):
+            valid_moves.append((cur_x+2, cur_y+1))
+
+        if self.is_boundary((cur_x+1, cur_y+2)) and not self.is_blocked((cur_x+1, cur_y+2), False):
+            valid_moves.append((cur_x+1, cur_y+2))
+
+        return valid_moves
+
 
     def is_blocked(self, coordinate, is_pawn):
         """
@@ -245,6 +289,11 @@ class Board(object):
 if __name__ == '__main__':
     chess_board = Board()
 
+    chess_board.cur_turn = 'B'
+    chess_board.move((0,1), (3,3))
+    print(chess_board.get_valid_moves((3,3)))
+
+
     #Moving black pieces to vulnerable positions to be attacked by white pawn
     #chess_board.move((1,2), (5,2))
     #chess_board.move((1,3), (5,0))
@@ -257,14 +306,14 @@ if __name__ == '__main__':
     #print(chess_board.get_valid_moves((4,1)))
 
     #Testing black's Pawn
-    chess_board.cur_turn = 'B'
+    #chess_board.cur_turn = 'B'
 
     #Moving white spaces to vulnerable positions to be attacked by black pawn
-    chess_board.move((6,1), (2,2))
-    chess_board.move((6,0), (2,0))
+    #chess_board.move((6,1), (2,2))
+    #chess_board.move((6,0), (2,0))
 
     #get the valid move for pawn located at (6,1)
-    print(chess_board.get_valid_moves((1,2)))
+    #print(chess_board.get_valid_moves((1,2)))
 
     #print(chess_board.get_valid_moves((1,1)))
     #chess_board.move((1,2), (2,2))
