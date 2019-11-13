@@ -41,6 +41,10 @@ class Board(object):
             if isinstance(coord_piece, pieces.Knight):
                 return self.get_knight_moves(coordinate)
 
+            if isinstance(coord_piece, pieces.Rook):
+                return self.get_rook_moves(coordinate)
+
+
         #other cases #TODO
 
     
@@ -159,6 +163,91 @@ class Board(object):
         return valid_moves
 
 
+    def get_rook_moves(self, coordinate):
+        """
+        Returns a list of valid moves for the knight piece at a given coordinate
+        """
+
+        cur_x = coordinate[0]
+        cur_y = coordinate[1]
+
+        valid_moves = []
+
+        #x-axis movement
+
+        if self.cur_turn == 'B':
+            for i in range(0, cur_x):
+
+                if self.is_blocked((i, cur_y), False):
+                    break
+
+                else:
+                    valid_moves.append((i, cur_y))
+
+                    if isinstance(self.board[i][cur_y], pieces.Piece):
+                        break
+
+            for i in range(cur_x+1, 8):
+
+                if self.is_blocked((i, cur_y), False):
+                    break
+
+                else:
+                    valid_moves.append((i, cur_y))
+
+                    if isinstance(self.board[i][cur_y], pieces.Piece):
+                        break
+
+        else:
+
+            for i in range(cur_x-1, -1 , -1):
+                                
+                if self.is_blocked((i, cur_y), False):
+                    break
+
+                else:
+                    valid_moves.append((i, cur_y))
+
+                    if isinstance(self.board[i][cur_y], pieces.Piece):
+                        break
+
+            for i in range(7, cur_x, -1):
+
+                if self.is_blocked((i, cur_y), False):
+                    break
+
+                else:
+                    valid_moves.append((i, cur_y))
+
+                    if isinstance(self.board[i][cur_y], pieces.Piece):
+                        break
+
+        #y-axis movement
+
+        for j in range(0, cur_y):
+
+            if self.is_blocked((cur_x, j), False):
+                break
+
+            else:
+                valid_moves.append((cur_x, j))
+
+                if isinstance(self.board[cur_x][j], pieces.Piece):
+                    break
+
+        for j in range(cur_y+1, 8):
+
+            if self.is_blocked((cur_x, j), False):
+                break
+
+            else:
+                valid_moves.append((cur_x, j))
+
+                if isinstance(self.board[cur_x][j], pieces.Piece):
+                    break
+
+        return valid_moves
+
     def is_blocked(self, coordinate, is_pawn):
         """
         Check to see if piece at coordinate is a potential blocking move. 
@@ -181,6 +270,7 @@ class Board(object):
             elif piece.colour == self.cur_turn:
                 return True
 
+        return False
 
     def is_boundary(self, coordinate):
         """
@@ -288,11 +378,23 @@ class Board(object):
 #For Testing
 if __name__ == '__main__':
     chess_board = Board()
-
+    ''' Knight Test
     chess_board.cur_turn = 'B'
     chess_board.move((0,1), (3,3))
     print(chess_board.get_valid_moves((3,3)))
+    '''
 
+
+    #Rook Test
+    '''
+    chess_board.cur_turn = 'B'
+    chess_board.move((1,0), (7,7))
+    chess_board.move((0,0), (2,0))
+    '''
+
+    #chess_board.move((6,7), (0,0))
+    #chess_board.move((7,7), (3,3))
+    #print(chess_board.get_valid_moves((3,3)))
 
     #Moving black pieces to vulnerable positions to be attacked by white pawn
     #chess_board.move((1,2), (5,2))
