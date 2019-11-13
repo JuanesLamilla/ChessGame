@@ -1,4 +1,4 @@
-#import pieces
+import pieces
 import numpy as np
 
 
@@ -26,7 +26,19 @@ class Board(object):
         """
         Returns a list of valid moves for the piece at a given coordinate
         """
-        #TODO Implement wrt. Pieces class
+        cur_x = coordinate[0]
+        cur_y = coordinate[1]
+
+        #if user tries to choose empty piece
+        if self.board[cur_x][cur_y] == 0:
+            raise ValueError("Please select a tile with your piece.")
+
+        #if user tries to chose other player's piece
+        if self.board[cur_x][cur_y].colour != self.cur_turn:
+            raise ValueError("Please select your piece only")
+
+        #other cases #TODO
+
 
     def move(self, old_coord, new_coord):
         """
@@ -62,38 +74,38 @@ class Board(object):
 
         #Placing the Rooks
 
-        board[0][0] = 'B_R'
-        board[0][7] = 'B_R'
-        board[7][0] = 'W_R'
-        board[7][7] = 'W_R'
+        board[0][0] = pieces.Rook('B')
+        board[0][7] = pieces.Rook('B')
+        board[7][0] = pieces.Rook('W')
+        board[7][7] = pieces.Rook('W')
 
         #Placing the Knights
 
-        board[0][1] = 'B_Kn'
-        board[0][6] = 'B_Kn'
-        board[7][1] = 'W_Kn'
-        board[7][6] = 'W_Kn'
+        board[0][1] = pieces.Knight('B')
+        board[0][6] = pieces.Knight('B')
+        board[7][1] = pieces.Knight('W')
+        board[7][6] = pieces.Knight('w')
 
         #Placing the Bishops
 
-        board[0][2] = 'B_B'
-        board[0][5] = 'B_B'
-        board[7][2] = 'W_B'
-        board[7][5] = 'W_B'
+        board[0][2] = pieces.Bishop('B')
+        board[0][5] = pieces.Bishop('B')
+        board[7][2] = pieces.Bishop('W')
+        board[7][5] = pieces.Bishop('W')
 
         #Placing the Queens
-        board[0][3] = 'B_Q'
-        board[7][3] = 'W_Q'
+        board[0][3] = pieces.Queen('B')
+        board[7][3] = pieces.Queen('w')
 
         #Placing the Kings
-        board[0][4] = 'B_K'
-        board[7][4] = 'W_K'
+        board[0][4] = pieces.King('B')
+        board[7][4] = pieces.King('W')
 
         #Placing the Pawns
 
         for i in range(8):
-            board[1][i] = 'B_P'
-            board[6][i] = 'W_P'
+            board[1][i] = pieces.Pawn('B')
+            board[6][i] = pieces.Pawn('W')
 
         return board
 
@@ -103,6 +115,9 @@ if __name__ == '__main__':
     chess_board = Board()
 
     #Moving pawn two spaces
-    #chess_board.move((6,0), (4,0))
+    chess_board.move((6,0), (4,0))
+
+    print(isinstance(chess_board.board[4][0], pieces.Pawn))
+    print(chess_board.board[4][0].colour)
 
     #print(repr(chess_board))
