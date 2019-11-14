@@ -33,6 +33,9 @@ class Board(object):
         if coord_piece.colour != self.cur_turn:
             raise ValueError("Please select your piece only")
 
+
+        #other cases #TODO
+
         else:
 
             if isinstance(coord_piece, pieces.Pawn):
@@ -44,8 +47,8 @@ class Board(object):
             if isinstance(coord_piece, pieces.Rook):
                 return self.get_rook_moves(coordinate)
 
-
-        #other cases #TODO
+            if isinstance(coord_piece, pieces.Bishop):
+                return self.get_bishop_moves(coordinate)
 
     
     def get_pawn_moves(self, coordinate):
@@ -249,6 +252,76 @@ class Board(object):
 
         return valid_moves
 
+    def get_bishop_moves(self, coordinate):
+
+        cur_x = coordinate[0]
+        cur_y = coordinate[1]
+
+        temp_y = cur_y
+
+        valid_moves = []
+
+        for i in range(cur_x-1, -1, -1):
+            temp_y -= 1
+
+            if self.is_blocked((i, temp_y), False):
+                temp_y = cur_y
+                break
+
+            else:
+                valid_moves.append((i, temp_y))
+
+                if isinstance(self.board[i][temp_y], pieces.Piece):
+                    temp_y = cur_y
+                    break
+        
+    
+        for i in range(cur_x-1, -1, -1):
+            temp_y += 1
+
+            if self.is_blocked((i, temp_y), False):
+                temp_y = cur_y
+                break
+
+            else:
+                valid_moves.append((i, temp_y))
+
+                if isinstance(self.board[i][temp_y], pieces.Piece):
+                    temp_y = cur_y
+                    break
+
+        for i in range(cur_x+1, 8):
+            temp_y -= 1
+
+            if self.is_blocked((i, temp_y), False):
+                temp_y = cur_y
+                break
+
+            else:
+                valid_moves.append((i, temp_y))
+
+                if isinstance(self.board[i][temp_y], pieces.Piece):
+                    temp_y = cur_y
+                    break
+
+        for i in range(cur_x+1, 8):
+            temp_y += 1
+
+            if self.is_blocked((i, temp_y), False):
+                temp_y = cur_y
+                break
+
+            else:
+                print((i, temp_y))
+                valid_moves.append((i, temp_y))
+
+                if isinstance(self.board[i][temp_y], pieces.Piece):
+                    temp_y = cur_y
+                    break
+
+        return valid_moves
+
+
     def is_blocked(self, coordinate, is_pawn):
         """
         Check to see if piece at coordinate is a potential blocking move. 
@@ -319,11 +392,13 @@ class Board(object):
         if isinstance(self.board[new_x][new_y], pieces.Pawn): 
             self.board[new_x][new_y].made_first_move()
 
+        
         if self.cur_turn == 'B':
             self.cur_turn = 'W'
 
         else:
             self.cur_turn = 'B'
+        
 
     def __repr__(self):
         """
@@ -398,10 +473,18 @@ if __name__ == '__main__':
     chess_board.move((1,0), (7,7))
     chess_board.move((0,0), (2,0))
     '''
-
+    '''
     chess_board.move((6,7), (0,0))
     chess_board.move((7,7), (3,3))
     print(chess_board.get_valid_moves((3,3)))
+    '''
+
+    '''
+    #Bishop Test
+    chess_board.move((7,5), (4,3))
+    print(chess_board.board[4][3])
+    print(chess_board.get_valid_moves((4,3)))
+    '''
 
     #Moving black pieces to vulnerable positions to be attacked by white pawn
     #chess_board.move((1,2), (5,2))
