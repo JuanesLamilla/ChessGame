@@ -176,6 +176,7 @@ class Board(object):
         #x-axis movement
 
         if self.cur_turn == 'B':
+
             for i in range(0, cur_x):
 
                 if self.is_blocked((i, cur_y), False):
@@ -211,7 +212,7 @@ class Board(object):
                     if isinstance(self.board[i][cur_y], pieces.Piece):
                         break
 
-            for i in range(7, cur_x, -1):
+            for i in range(cur_x+1, 8):
 
                 if self.is_blocked((i, cur_y), False):
                     break
@@ -392,9 +393,9 @@ if __name__ == '__main__':
     chess_board.move((0,0), (2,0))
     '''
 
-    #chess_board.move((6,7), (0,0))
-    #chess_board.move((7,7), (3,3))
-    #print(chess_board.get_valid_moves((3,3)))
+    chess_board.move((6,7), (0,0))
+    chess_board.move((7,7), (3,3))
+    print(chess_board.get_valid_moves((3,3)))
 
     #Moving black pieces to vulnerable positions to be attacked by white pawn
     #chess_board.move((1,2), (5,2))
