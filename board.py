@@ -356,7 +356,7 @@ class Board(object):
         board[0][1] = pieces.Knight('B')
         board[0][6] = pieces.Knight('B')
         board[7][1] = pieces.Knight('W')
-        board[7][6] = pieces.Knight('w')
+        board[7][6] = pieces.Knight('W')
 
         #Placing the Bishops
 
@@ -367,7 +367,7 @@ class Board(object):
 
         #Placing the Queens
         board[0][3] = pieces.Queen('B')
-        board[7][3] = pieces.Queen('w')
+        board[7][3] = pieces.Queen('W')
 
         #Placing the Kings
         board[0][4] = pieces.King('B')
