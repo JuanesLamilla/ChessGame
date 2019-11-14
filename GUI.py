@@ -76,11 +76,12 @@ def main():
     width = 400
     grid_width = width / 8
     board = Board()
-    animation = True
+    animation = False
     screen = pygame.display.set_mode((width,width))
     draw_board(screen, width, animation)
     draw_pieces(screen, width, board, animation)
     pygame.display.update()
+    valid_moves = []
     if animation:
         logo = pygame.image.load("logo.png")
         screen.blit(logo, (0,1))
@@ -96,10 +97,23 @@ def main():
                 x = int(event.pos[0] // grid_width)
                 y = int(event.pos[1] // grid_width)
                 draw_board(screen, width, False)
-                if board.board[y][x] != 0:
+                selected = board.board[y][x]
+                
+                if selected != 0 and selected.colour == board.cur_turn:
                     pygame.draw.rect(screen, pygame.Color(78, 222, 188),
                              pygame.Rect(x * grid_width,y * grid_width,
                                          grid_width,grid_width))
+                    valid_moves = board.get_valid_moves((y,x))
+                    print(valid_moves) #test
+                    selected_coord = (y,x)
+                    if valid_moves:
+                        for move in valid_moves:
+                            pygame.draw.rect(screen, pygame.Color(78, 222, 188),
+                                 pygame.Rect(move[1] * grid_width + 3,move[0] *
+                                             grid_width + 3, grid_width - 6,grid_width - 6))
+                elif selected == 0 and (y,x) in valid_moves:
+                    board.move (selected_coord, (y,x))
+                                        
                 draw_pieces(screen, width, board, False)
                 pygame.display.update()
                 
