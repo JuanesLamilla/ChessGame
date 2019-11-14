@@ -111,7 +111,7 @@ def main():
                             pygame.draw.rect(screen, pygame.Color(78, 222, 188),
                                  pygame.Rect(move[1] * grid_width + 3,move[0] *
                                              grid_width + 3, grid_width - 6,grid_width - 6))
-                elif selected == 0 and (y,x) in valid_moves:
+                elif selected == 0 and valid_moves and (y,x) in valid_moves:
                     board.move (selected_coord, (y,x))
                                         
                 draw_pieces(screen, width, board, False)
