@@ -319,6 +319,12 @@ class Board(object):
         if isinstance(self.board[new_x][new_y], pieces.Pawn): 
             self.board[new_x][new_y].made_first_move()
 
+        if self.cur_turn == 'B':
+            self.cur_turn = 'W'
+
+        else:
+            self.cur_turn = 'B'
+
     def __repr__(self):
         """
         Prints the Chess Board in matrix format.
