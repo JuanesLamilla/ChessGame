@@ -49,7 +49,10 @@ class Board(object):
 
             if isinstance(coord_piece, pieces.Bishop):
                 return self.get_bishop_moves(coordinate)
-
+        
+            if isinstance(coord_piece, pieces.Queen):
+                return self.get_queen_moves(coordinate)
+        
     
     def get_pawn_moves(self, coordinate):
         """
@@ -168,7 +171,7 @@ class Board(object):
 
     def get_rook_moves(self, coordinate):
         """
-        Returns a list of valid moves for the knight piece at a given coordinate
+        Returns a list of valid moves for the rook piece at a given coordinate
         """
 
         cur_x = coordinate[0]
@@ -312,7 +315,6 @@ class Board(object):
                 break
 
             else:
-                print((i, temp_y))
                 valid_moves.append((i, temp_y))
 
                 if isinstance(self.board[i][temp_y], pieces.Piece):
@@ -321,6 +323,16 @@ class Board(object):
 
         return valid_moves
 
+    def get_queen_moves(self, coordinate):
+        """
+        Returns a list of valid moves for the queen piece at a given coordinate
+        """
+        bishop_moves = self.get_bishop_moves(coordinate)
+        rook_moves = self.get_rook_moves(coordinate)
+
+        valid_moves = bishop_moves + rook_moves
+
+        return valid_moves
 
     def is_blocked(self, coordinate, is_pawn):
         """
