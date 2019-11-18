@@ -107,8 +107,7 @@ def settings():
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.display.quit()
-                pygame.quit()
+                intro = False
 
         screen.fill(white)
         large_text = pygame.font.Font('freesansbold.ttf', 50)
@@ -120,6 +119,8 @@ def settings():
         button("BACK", 125, 230, 175, 50, grey, black, intro_screen)
 
         pygame.display.update()
+    pygame.display.quit()
+    pygame.quit()
 
 
 def intro_screen():
@@ -129,8 +130,7 @@ def intro_screen():
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.display.quit()
-                pygame.quit()
+                intro = False
 
         piece_image = pygame.image.load("PiecesPNG/BRook.png")
         pygame.display.set_icon(piece_image)
@@ -146,6 +146,8 @@ def intro_screen():
         button("SETTINGS", 125, 300, 175, 50, grey, black, settings)
 
         pygame.display.update()
+    pygame.display.quit()
+    pygame.quit()
 
 
 def main():
@@ -185,6 +187,17 @@ def main():
                             pygame.draw.rect(screen, pygame.Color(78, 222, 188),
                                  pygame.Rect(move[1] * grid_width + 3,move[0] *
                                              grid_width + 3, grid_width - 6,grid_width - 6))
+
+                # show red square when user clicks on the opponent's piece
+                elif selected != 0 and selected.colour != board.cur_turn:
+                    pygame.draw.rect(screen, pygame.Color(255, 0, 0),
+                             pygame.Rect(x * grid_width,y * grid_width,
+                                         grid_width,grid_width))
+                    draw_pieces(screen, width, board, False)
+                    pygame.display.update()
+                    pygame.time.delay(100)
+                    draw_board(screen, width, False)
+                
                 # move selected piece
                 elif selected == 0 and valid_moves and (y,x) in valid_moves:
                     board.move (selected_coord, (y,x))
