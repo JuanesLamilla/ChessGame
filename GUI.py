@@ -1,6 +1,17 @@
 import pygame
 from board import *
 
+pygame.init()
+
+width = 400
+black = (0, 0, 0)
+grey = (100, 100, 100)
+white = (255, 255, 255)
+
+pygame.display.set_caption("Chess")
+screen = pygame.display.set_mode((width, width))
+
+
 def draw_board(screen: pygame.Surface, width: int, animation:bool =False):
     """
     Draws the chess board on the given screen, according to the given width.
@@ -21,6 +32,7 @@ def draw_board(screen: pygame.Surface, width: int, animation:bool =False):
                 pygame.display.update()
             x = x + 2 * grid_width
         y = y + grid_width
+
 
 def draw_pieces(screen: pygame.Surface, width: int, board: Board,
                 animation:bool =False):
@@ -68,16 +80,78 @@ def draw_pieces(screen: pygame.Surface, width: int, board: Board,
             if animation and row == 3:
                 pygame.time.delay(50)
                 pygame.display.update()
-                
-                
+
+
+def button(msg, x, y, w, h, inactive_colour, active_colour, action=None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(screen, inactive_colour, (x, y, w, h))
+        if click[0] == 1 and action is not None:
+            action()
+    else:
+        pygame.draw.rect(screen, active_colour, (x, y, w, h))
+
+    small_text = pygame.font.Font("freesansbold.ttf", 30)
+    text_surf = small_text.render(msg, True, white)
+    text_rect = text_surf.get_rect()
+    text_rect.center = ((x + (w / 2)), (y + (h / 2)))
+    screen.blit(text_surf, text_rect)
+
+
+def settings():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+
+        screen.fill(white)
+        large_text = pygame.font.Font('freesansbold.ttf', 50)
+        text_surf = large_text.render("404 :(", True, black)
+        text_rect = text_surf.get_rect()
+        text_rect.center = ((width/2), (width/2) - 50)
+        screen.blit(text_surf, text_rect)
+
+        button("BACK", 125, 230, 175, 50, grey, black, intro_screen)
+
+        pygame.display.update()
+
+
+def intro_screen():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+
+        piece_image = pygame.image.load("PiecesPNG/BRook.png")
+        pygame.display.set_icon(piece_image)
+
+        screen.fill(white)
+        large_text = pygame.font.Font('freesansbold.ttf', 115)
+        text_surf = large_text.render("Chess", True, black)
+        text_rect = text_surf.get_rect()
+        text_rect.center = ((width/2), (width/2) - 50)
+        screen.blit(text_surf, text_rect)
+
+        button("START", 125, 230, 175, 50, grey, black, main)
+        button("SETTINGS", 125, 300, 175, 50, grey, black, settings)
+
+        pygame.display.update()
+
+
 def main():
-    pygame.init()
-    pygame.display.set_caption("Chess")
-    width = 400
     grid_width = width / 8
     board = Board()
     animation = False
-    screen = pygame.display.set_mode((width,width))
     draw_board(screen, width, animation)
     draw_pieces(screen, width, board, animation)
     pygame.display.update()
@@ -87,7 +161,7 @@ def main():
         screen.blit(logo, (0,1))
         pygame.time.delay(400)
         pygame.display.update()
-    
+
     running = True
     while running:
         for event in pygame.event.get():
@@ -114,14 +188,13 @@ def main():
                 # move selected piece
                 elif selected == 0 and valid_moves and (y,x) in valid_moves:
                     board.move (selected_coord, (y,x))
-                                        
+
                 draw_pieces(screen, width, board, False)
                 pygame.display.update()
-                
-                
+
     pygame.display.quit()
     pygame.quit()
-     
-if __name__=="__main__":
-    main()
-    
+
+
+if __name__ == "__main__":
+    intro_screen()
