@@ -29,29 +29,24 @@ class Board(object):
 
         coord_piece = self.return_valid_piece(coordinate)
 
-        #if user tries to chose other player's piece
-        if coord_piece.colour != self.cur_turn:
-            raise ValueError("Please select your piece only")
 
-        else:
+        if isinstance(coord_piece, pieces.Pawn):
+            return self.get_pawn_moves(coordinate)
 
-            if isinstance(coord_piece, pieces.Pawn):
-                return self.get_pawn_moves(coordinate)
+        if isinstance(coord_piece, pieces.Knight):
+            return self.get_knight_moves(coordinate)
 
-            if isinstance(coord_piece, pieces.Knight):
-                return self.get_knight_moves(coordinate)
+        if isinstance(coord_piece, pieces.Rook):
+            return self.get_rook_moves(coordinate)
 
-            if isinstance(coord_piece, pieces.Rook):
-                return self.get_rook_moves(coordinate)
+        if isinstance(coord_piece, pieces.Bishop):
+            return self.get_bishop_moves(coordinate)
+    
+        if isinstance(coord_piece, pieces.Queen):
+            return self.get_queen_moves(coordinate)
 
-            if isinstance(coord_piece, pieces.Bishop):
-                return self.get_bishop_moves(coordinate)
-        
-            if isinstance(coord_piece, pieces.Queen):
-                return self.get_queen_moves(coordinate)
-
-            if isinstance(coord_piece, pieces.King):
-                return self.get_king_moves(coordinate)
+        if isinstance(coord_piece, pieces.King):
+            return self.basic_king_moves(coordinate)
         
     
     def get_pawn_moves(self, coordinate):
@@ -342,28 +337,25 @@ class Board(object):
         """
         Returns the basic movement of King - not including Check positions
         """
-
         cur_x = coordinate[0]
         cur_y = coordinate[1]
         valid_moves = []
 
-        #top movement
+        #Left/right side movement
         for i in range(-1, 2):
-            potential_coord = (cur_x-1, cur_y + i)
-            if not self.is_blocked(potential_coord, False) and self.is_boundary(potential_coord):
-                valid_moves.append(potential_coord)
+            potential_coord_left = (cur_x+i, cur_y - 1)
+            potential_coord_right = (cur_x+i, cur_y + 1)
 
-        #same row movement
-        for i in [-1, 1]:
-            potential_coord = (cur_x, cur_y + i)
-            if not self.is_blocked(potential_coord, False) and self.is_boundary(potential_coord):
-                valid_moves.append(potential_coord)
+            if i != 0:
+                potential_coord_center = (cur_x+i, cur_y)
+                if self.is_boundary(potential_coord_center) and not self.is_blocked(potential_coord_center, False):
+                    valid_moves.append(potential_coord_center)
 
-        #bottom row movement
-        for i in range(-1, 2):
-            potential_coord = (cur_x+1, cur_y + i)
-            if not self.is_blocked(potential_coord, False) and self.is_boundary(potential_coord):
-                valid_moves.append(potential_coord)
+            if self.is_boundary(potential_coord_left) and not self.is_blocked(potential_coord_left, False):
+                valid_moves.append(potential_coord_left)
+
+            if self.is_boundary(potential_coord_right) and not self.is_blocked(potential_coord_right, False):
+                valid_moves.append(potential_coord_right)
 
         return valid_moves
 
