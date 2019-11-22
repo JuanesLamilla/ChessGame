@@ -259,14 +259,16 @@ class Board(object):
         cur_y = coordinate[1]
         valid_moves = []
 
-
         #top left movement
         top_left_movement = (-1, -1)
         potential_coord = tuple(map(sum, zip(coordinate, top_left_movement)))
 
         while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+                break
             potential_coord = tuple(map(sum, zip(potential_coord, top_left_movement)))
+        
 
         #top right movement
         top_right_movement = (1, 1)
@@ -274,6 +276,8 @@ class Board(object):
 
         while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+                break
             potential_coord = tuple(map(sum, zip(potential_coord, top_right_movement)))
 
         #bottom left movement
@@ -282,6 +286,8 @@ class Board(object):
 
         while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+                break
             potential_coord = tuple(map(sum, zip(potential_coord, bot_left_movement)))
 
         #bottom right movement
@@ -290,6 +296,8 @@ class Board(object):
 
         while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+                break
             potential_coord = tuple(map(sum, zip(potential_coord, bot_right_movement)))
 
         return valid_moves
