@@ -29,7 +29,6 @@ class Board(object):
 
         coord_piece = self.return_valid_piece(coordinate)
 
-
         if isinstance(coord_piece, pieces.Pawn):
             return self.get_pawn_moves(coordinate)
 
@@ -41,14 +40,14 @@ class Board(object):
 
         if isinstance(coord_piece, pieces.Bishop):
             return self.get_bishop_moves(coordinate)
-    
+
         if isinstance(coord_piece, pieces.Queen):
             return self.get_queen_moves(coordinate)
 
         if isinstance(coord_piece, pieces.King):
             return self.basic_king_moves(coordinate)
-        
-    
+
+
     def get_pawn_moves(self, coordinate):
         """
         Returns a list of valid moves for the pawn piece at a given coordinate.
@@ -70,7 +69,7 @@ class Board(object):
 
                     if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
                         valid_moves.append(potential_coord)
-            
+
             #case for pawn's 2nd move and beyond
             else:
                 potential_coord = (cur_x+1, cur_y)
@@ -78,7 +77,7 @@ class Board(object):
                 if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
                     valid_moves.append(potential_coord)
 
-            #if there is a black piece located diagnoally: 
+            #if there is a black piece located diagnoally:
 
             if self.is_boundary((cur_x+1, cur_y +1)):
                 potential_piece = self.return_valid_piece((cur_x+1, cur_y+1))
@@ -89,7 +88,7 @@ class Board(object):
                 potential_piece = self.return_valid_piece((cur_x+1, cur_y-1))
                 if potential_piece != 0 and potential_piece.colour != self.cur_turn:
                     valid_moves.append((cur_x+1, cur_y-1))
-                
+
         #if player white
 
         else:
@@ -101,7 +100,7 @@ class Board(object):
 
                     if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
                         valid_moves.append(potential_coord)
-            
+
             #case for pawn's 2nd move and beyond
             else:
                 potential_coord = (cur_x-1, cur_y)
@@ -109,7 +108,7 @@ class Board(object):
                 if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
                     valid_moves.append(potential_coord)
 
-            #if there is a black piece located diagnoally: 
+            #if there is a black piece located diagnoally:
 
             if self.is_boundary((cur_x-1, cur_y -1)):
                 potential_piece = self.return_valid_piece((cur_x-1, cur_y-1))
@@ -203,7 +202,7 @@ class Board(object):
         else:
 
             for i in range(cur_x-1, -1 , -1):
-                                
+
                 if self.is_blocked((i, cur_y), False):
                     break
 
@@ -268,7 +267,7 @@ class Board(object):
             if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
                 break
             potential_coord = tuple(map(sum, zip(potential_coord, top_left_movement)))
-        
+
 
         #top right movement
         top_right_movement = (1, 1)
@@ -306,7 +305,7 @@ class Board(object):
         """
         Returns a list of valid moves for the queen piece at a given coordinate
         """
-        
+
         bishop_moves = self.get_bishop_moves(coordinate)
         rook_moves = self.get_rook_moves(coordinate)
 
@@ -377,25 +376,25 @@ class Board(object):
 
                     else:
                         black_moves.append(self.get_valid_moves(coord))
-        
+
         return {'B': black_moves, 'W': white_moves}
 
     def is_blocked(self, coordinate, is_pawn):
         """
-        Check to see if piece at coordinate is a potential blocking move. 
+        Check to see if piece at coordinate is a potential blocking move.
         """
         cur_x = coordinate[0]
         cur_y = coordinate[1]
 
         piece = self.board[cur_x][cur_y]
-
-        #If nothing at coordinate, then it's a safe move. 
+        #print ("block_check")
+        #If nothing at coordinate, then it's a safe move.
         if piece == 0:
             return False
 
         else:
-            
-            #action passed if its a pawn - it can't attack straight on. 
+
+            #action passed if its a pawn - it can't attack straight on.
             if is_pawn:
                 return True
 
@@ -414,19 +413,19 @@ class Board(object):
         if cur_x < 0 or cur_x > 7 or cur_y < 0 or cur_y > 7:
             return False
 
-        else: 
-            return True        
+        else:
+            return True
 
 
     def return_valid_piece(self, coordinate):
         """
         Returns a piece at the coordinate - if it exists.
-        Returns 0 otherwise 
+        Returns 0 otherwise
         """
 
         cur_x = coordinate[0]
         cur_y = coordinate[1]
-        
+
         #if coordinate contains a piece
         if self.board[cur_x][cur_y] != 0:
             return self.board[cur_x][cur_y]
@@ -448,14 +447,31 @@ class Board(object):
         self.board[new_x][new_y] = self.board[old_x][old_y]
         self.board[old_x][old_y] = 0
 
-        if isinstance(self.board[new_x][new_y], pieces.Pawn): 
+        if isinstance(self.board[new_x][new_y], pieces.Pawn):
             self.board[new_x][new_y].made_first_move()
- 
+
         if self.cur_turn == 'B':
             self.cur_turn = 'W'
 
         else:
             self.cur_turn = 'B'
+
+    def can_capture(self, old_cord, new_cord):
+        """
+        called by move and gui to check if the tile that the player is tying
+        to move to is occupied by an opponents piece that can be captured.
+        """
+        old_x = old_cord[0]
+        old_y = old_cord[1]
+        new_x = new_cord[0]
+        new_y = new_cord[1]
+        if self.return_valid_piece(old_cord) == 0:
+            return False
+        if self.return_valid_piece(old_cord).colour != \
+                self.return_valid_piece(new_cord).colour \
+                and new_cord in self.get_valid_moves(old_cord):
+            return True
+        return False
 
     def __repr__(self):
         """

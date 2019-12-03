@@ -189,7 +189,9 @@ def main():
                                              grid_width + 3, grid_width - 6,grid_width - 6))
 
                 # show red square when user clicks on the opponent's piece
-                elif selected != 0 and selected.colour != board.cur_turn:
+                elif selected != 0 and selected.colour != board.cur_turn\
+                        and not board.can_capture(selected_coord, (y,x)):
+                    print("invalid move")
                     pygame.draw.rect(screen, pygame.Color(255, 0, 0),
                              pygame.Rect(x * grid_width,y * grid_width,
                                          grid_width,grid_width))
@@ -197,10 +199,11 @@ def main():
                     pygame.display.update()
                     pygame.time.delay(100)
                     draw_board(screen, width, False)
-                
+
                 # move selected piece
-                elif selected == 0 and valid_moves and (y,x) in valid_moves:
-                    board.move (selected_coord, (y,x))
+                elif (selected == 0 or board.can_capture(selected_coord, (y,x)))\
+                        and valid_moves and (y, x) in valid_moves:
+                    board.move(selected_coord, (y, x))
 
                 draw_pieces(screen, width, board, False)
                 pygame.display.update()
