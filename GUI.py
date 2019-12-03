@@ -2,6 +2,7 @@ import pygame
 from board import *
 
 pygame.init()
+pygame.font.init()
 
 width = 400
 black = (0, 0, 0)
@@ -10,6 +11,8 @@ white = (255, 255, 255)
 
 pygame.display.set_caption("Chess")
 screen = pygame.display.set_mode((width, width))
+
+timer = False
 
 
 def draw_board(screen: pygame.Surface, width: int, animation:bool =False):
@@ -100,6 +103,33 @@ def button(msg, x, y, w, h, inactive_colour, active_colour, action=None):
     screen.blit(text_surf, text_rect)
 
 
+def switch(msg, x, y):
+    global timer
+
+    mouse = pygame.mouse.get_pos()
+
+    click = pygame.mouse.get_pressed()
+
+    pygame.draw.circle(screen, black, (x, y), 10, 3)
+
+    if timer:
+        pygame.draw.circle(screen, black, (x, y), 5)
+
+    if x + 5 > mouse[0] > x - 5 and y + 5 > mouse[1] > y - 5 and click[0] == 1:
+        if not timer:
+            pygame.draw.circle(screen, black, (x, y), 5)
+            timer = True
+        else:
+            timer = False
+
+
+    small_text = pygame.font.Font('freesansbold.ttf', 25)
+    text_surf2 = small_text.render(msg, True, black)
+    text_rect2 = text_surf2.get_rect()
+    text_rect2.center = (x + 60, 185)
+    screen.blit(text_surf2, text_rect2)
+
+
 def settings():
 
     intro = True
@@ -111,12 +141,14 @@ def settings():
 
         screen.fill(white)
         large_text = pygame.font.Font('freesansbold.ttf', 50)
-        text_surf = large_text.render("404 :(", True, black)
+        text_surf = large_text.render("Settings", True, black)
         text_rect = text_surf.get_rect()
-        text_rect.center = ((width/2), (width/2) - 50)
+        text_rect.center = ((width/2), (width/2) - 75)
         screen.blit(text_surf, text_rect)
 
-        button("BACK", 125, 230, 175, 50, grey, black, intro_screen)
+        switch("Timer", 140, 185)
+
+        button("START", 125, 230, 175, 50, grey, black, main)
 
         pygame.display.update()
     pygame.display.quit()
@@ -197,7 +229,7 @@ def main():
                     pygame.display.update()
                     pygame.time.delay(100)
                     draw_board(screen, width, False)
-                
+
                 # move selected piece
                 elif selected == 0 and valid_moves and (y,x) in valid_moves:
                     board.move (selected_coord, (y,x))
