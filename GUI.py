@@ -19,17 +19,17 @@ def draw_board(screen: pygame.Surface, width: int, animation:bool =False):
     """
     Draws the chess board on the given screen, according to the given width.
     """
-    screen.fill(pygame.Color(255,255,255))
+    screen.fill(pygame.Color(255, 255, 255))
     y = 0
     grid_width = width / 8
-    for row in range (8):
+    for row in range(8):
         if row % 2 == 0:
             x = width / 8
         else:
             x = 0
-        for col in range (4):
-            pygame.draw.rect(screen, pygame.Color(119,136,153),
-                             pygame.Rect(x,y,grid_width,grid_width))
+        for col in range(4):
+            pygame.draw.rect(screen, pygame.Color(119, 136, 153),
+                                 pygame.Rect(x, y, grid_width, grid_width))
             if animation:
                 pygame.time.delay(25)
                 pygame.display.update()
@@ -184,6 +184,12 @@ def intro_screen():
 
 def main():
     grid_width = width / 8
+
+    height = 500
+    if timer:
+        pygame.display.set_mode((width, height))
+        pygame.display.update()
+
     board = Board()
     animation = False
     draw_board(screen, width, animation)
@@ -199,6 +205,13 @@ def main():
     running = True
     while running:
         for event in pygame.event.get():
+
+            if timer:
+                # TODO: Change the strings below to reflect remaining time
+                button("0:01", 20, 425, 175, 50, black, black)  # Player 1
+                button("0:02", 205, 425, 175, 50, black, black)  # Player 2
+                pygame.display.update()
+
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
