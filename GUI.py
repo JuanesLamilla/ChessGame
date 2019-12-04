@@ -198,6 +198,13 @@ class GUI:
         self.draw_pieces(board, animation)
         pygame.display.update()
         valid_moves = []
+
+        clock = pygame.time.Clock()
+        time_one = 300
+        time_two = 300
+
+        pygame.time.set_timer(pygame.USEREVENT, 1000)
+
         if animation:
             logo = pygame.image.load("logo.png")
             self.screen.blit(logo, (0,1))
@@ -208,10 +215,20 @@ class GUI:
         while running:
             for event in pygame.event.get():
 
+                clock.tick()
+
                 if self.timer:
                     # TODO: Change the strings below to reflect remaining time
-                    self.button("0:01", 20, 425, 175, 50, self.black, self.black)  # Player 1
-                    self.button("0:02", 205, 425, 175, 50, self.black, self.black)  # Player 2
+
+                    if board.cur_turn == 'W' and event.type == pygame.USEREVENT:
+                        time_one -= 1
+
+                    elif board.cur_turn == 'B'and event.type == pygame.USEREVENT:
+                        time_two -= 1
+
+                    self.button(str(time_one), 20, 425, 175, 50, self.black, self.black)  # Player 1
+                    self.button(str(time_two), 205, 425, 175, 50, self.black, self.black)  # Player 2
+
                     pygame.display.update()
 
                 if event.type == pygame.QUIT:
@@ -238,7 +255,7 @@ class GUI:
                     # show red square when user clicks on the opponent's piece
                     elif selected != 0 and selected.colour != board.cur_turn\
                             and not board.can_capture(selected_coord, (y,x)):
-                        print("invalid move")
+
                         pygame.draw.rect(self.screen, pygame.Color(255, 0, 0),
                                  pygame.Rect(x * grid_width,y * grid_width,
                                              grid_width,grid_width))
@@ -257,7 +274,6 @@ class GUI:
 
         pygame.display.quit()
         pygame.quit()
-
 
 if __name__ == "__main__":
     gui = GUI()
