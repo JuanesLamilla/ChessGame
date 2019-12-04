@@ -1,6 +1,7 @@
 import pygame
 from board import *
 
+
 class GUI:
     """
     represents the gui of the game.
@@ -43,7 +44,6 @@ class GUI:
                     pygame.display.update()
                 x = x + 2 * grid_width
             y = y + grid_width
-
 
     def draw_pieces(self, board: Board, animation:bool =False):
         """
@@ -90,7 +90,6 @@ class GUI:
                 if animation and row == 3:
                     pygame.time.delay(50)
                     pygame.display.update()
-
 
     def button(self, msg, x, y, w, h, inactive_colour, active_colour, action=None):
         mouse = pygame.mouse.get_pos()
@@ -156,7 +155,6 @@ class GUI:
         pygame.display.quit()
         pygame.quit()
 
-
     def intro_screen(self):
         print("intro screen started")
         intro = True
@@ -182,7 +180,6 @@ class GUI:
             pygame.display.update()
         pygame.display.quit()
         pygame.quit()
-
 
     def main(self):
         grid_width = self.width / 8
@@ -218,24 +215,36 @@ class GUI:
                 clock.tick()
 
                 if self.timer:
-                    # TODO: Change the strings below to reflect remaining time
 
-                    if board.cur_turn == 'W' and event.type == pygame.USEREVENT:
+                    if board.cur_turn == 'W' \
+                            and event.type == pygame.USEREVENT:
                         time_one -= 1
 
-                    elif board.cur_turn == 'B'and event.type == pygame.USEREVENT:
+                    elif board.cur_turn == 'B' \
+                            and event.type == pygame.USEREVENT:
                         time_two -= 1
 
-                    self.button(str(time_one), 20, 425, 175, 50, self.black, self.black)  # Player 1
-                    self.button(str(time_two), 205, 425, 175, 50, self.black, self.black)  # Player 2
+                    self.button(seconds_to_clock(time_one),
+                                20, 425, 175, 50, self.black, self.black)
+                    self.button(seconds_to_clock(time_two),
+                                205, 425, 175, 50, self.black, self.black)
 
                     pygame.display.update()
+
+                    if time_one == 0:
+                        pass  # TODO: Player 2 wins
+                    elif time_two == 0:
+                        pass  # TODO: Player 1 wins
 
                 if event.type == pygame.QUIT:
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     x = int(event.pos[0] // grid_width)
                     y = int(event.pos[1] // grid_width)
+
+                    if y >= 8:
+                        break
+
                     self.draw_board(False)
                     selected = board.board[y][x]
 
@@ -274,6 +283,17 @@ class GUI:
 
         pygame.display.quit()
         pygame.quit()
+
+
+def seconds_to_clock(original: int) -> str:
+    minutes = original // 60
+    seconds = str(original % 60)
+    if seconds == '0':
+        seconds = '00'
+    if len(seconds) == 1:
+        seconds = "0" + seconds
+    return str(minutes) + ":" + seconds
+
 
 if __name__ == "__main__":
     gui = GUI()
