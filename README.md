@@ -112,6 +112,8 @@ For the code, I mainly worked on the GUI. This includes initializing the board a
 ### Cole Richardson
 For this project I worked on the game class which was intended to be used as the main class reponsible for the flow of the game, however this didn't end up getting used as we ended up doing this in the gui class itself. I also worked on the player class which was to be used by the game class and pieces class to keep track of who the owner is, however this class also didn't end up getting used in the games current form. I also worked on the check_capture method in the board class which is responsible for checking if the player can capture a piece and also worked on implementing this into the gui classes main() method so that the player is able to capture pieces. Lastly I worked on refactoring the gui.py file into a class so that it is easier to extend and to add contributions to. In the readme I wrote the description of the board class in the documentation portion, and also worked on the documentation for the gui class and methods. 
 
+### Juan Lamilla
+I had a variety of tasks throughout this projects. Firstly, I created the pieces class that was used by placed by the board. Most importantly, these pieces keep track of their colour, and whether or not they have made their first move. Secondly, I created the title and settings screens. This included creating working click button and radio button functions. Finally, I created the chess timer. When selected in the settings screen, timers appear below the board that count down and alternate between players when it is their turn. For the README, I wrote the installation and helped with formatting (such as the title above the links).
 
 ## License information
 MIT License
