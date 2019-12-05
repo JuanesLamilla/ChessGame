@@ -1,3 +1,19 @@
+<p align=center>
+    <img src="https://github.com/tahazulfiqar/csc290/blob/master/logo.png">
+</p>
+
+<p align="center">
+  <a href="#installation">Installation</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#how-to-play">How To Play</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#documentation">Documentation</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#individual-contributions">Individual Contributions</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#license-information">License Information</a>
+</p>
+
 # Chess
 Chess game created using `python` and `pygame`
 ## Installation
