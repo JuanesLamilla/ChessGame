@@ -1,5 +1,5 @@
 <p align=center>
-    <img src="https://github.com/tahazulfiqar/csc290/blob/master/Screenshots/logo.PNG">
+    <img src="https://github.com/tahazulfiqar/csc290/blob/master/Screenshots/logo.png">
 </p>
 
 <p align="center">
