@@ -74,18 +74,18 @@ If a piece is at coordinate, it returns the a list of tuples - where each tuple 
 The gui class is where the window is created wherein the user can interact with and see what the board looks like. The gui class is also responsible for handling user input through clicks and displaying the updated board after each move. In the gui class there are many methods some of which will be explained below:
 ####  init():
 This method is responsible for setting up the variables which are used by many of the other methods. If you would like to change the colours of the chess pieces and the background of the board or the window size this is where you would do so. This is also where the window is setup and is named self.screen. it is set currently to be a square, by changing the width variable and/or adding a height varaible and replacing it in the self.screen parameters you can change the size of the window.
-#### draw_board():
+#### draw_board(animation):
 This method is responsible for drawing the board to the screen and setting up the empty tiles. 
-#### draw_pieces(): 
+#### draw_pieces(board, animation): 
 This method is where the pieces are drawn to the window onto the board that was created in the previous function. This function also depends on the status of the board from the board class.
-#### button():
+#### button(msg, x, y, w, h, inactive_colour, active_colour, action):
 This method is used to set up necessary buttons like the start butuon and the settings button. If you want to add some buttons use this method to do so, but don't change this method itself.
-#### switch():
+#### switch(msg, x, y):
 This method is used to create the switch for the timers in the settings menu. If you want to add some extra switches for possible features like a handicap or other game modes this would be the method you should use to create those switches. Don't change the actual method itself though.
 #### settings(): 
 This method is used to set up the settings window when the settings button is pressed in the intro screen. If you want to add some extra settings in the settings window, this is where you can add them, we reccommend using either buttons or switches to do so according to the feature that is being implemented. Follow the way we set up the timer and start features.
 #### intro_screen(): 
-This method is used to set up the intro screen that appears when the game is first loaded up. If you wanted to add something to the window that appears when the game is first started this would be the place to do so. This metho is called when the Gui.py file is first run.
+This method is used to set up the intro screen that appears when the game is first loaded up. If you wanted to add something to the window that appears when the game is first started this would be the place to do so. This method is called when the Gui.py file is first run.
 #### main():
 This is the main method of the game that is run when the start button is hit from the intro screen. This method is responsible for taking input from the user and updating the board nested list in the board class accordingly. This method is tightly tied in to the board class as it is also responsible for highlighting the possible moves when the user clicks a piece and then updating the board in both the board class and the gui to reflect the changes to the game state. If you notice a gameplay bug and would like to try fixing it this would be the place to do so. This method is also responsible for calling the board classes move method when the player moves a piece. Each time an action is taken, the gui updates the screen to reflect what has been changed. 
 
@@ -108,6 +108,9 @@ My prominent role in this project was providing back-end functionality of the bo
 
 ### Adrian Lam
 For the code, I mainly worked on the GUI. This includes initializing the board and pieces, the starting animation, selecting pieces, showing highlighted moves and moving the pieces. To provide some feedback for the user, I made the piece flash red when the user clicks on one of the opponent's pieces. There were also a few GUI issues that I fixed when other features were introduced. For example, the timer flashes whenever the user clicks and the inconsistent piece colours in the board class that caused an issue where certain pieces cannot be selected. For the README, I wrote the How To Play  and Extending Our Code sections.
+
+### Cole Richardson
+For this project I worked on the game class which was intended to be used as the main class reponsible for the flow of the game, however this didn't end up getting used as we ended up doing this in the gui class itself. I also worked on the player class which was to be used by the game class and pieces class to keep track of who the owner is, however this class also didn't end up getting used in the games current form. I also worked on the check_capture method in the board class which is responsible for checking if the player can capture a piece and also worked on implementing this into the gui classes main() method so that the player is able to capture pieces. Lastly I worked on refactoring the gui.py file into a class so that it is easier to extend and to add contributions to. In the readme I wrote the description of the board class in the documentation portion, and also worked on the documentation for the gui class and methods. 
 
 
 ## License information
