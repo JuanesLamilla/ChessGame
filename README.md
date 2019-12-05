@@ -89,9 +89,25 @@ This method is used to set up the intro screen that appears when the game is fir
 #### main():
 This is the main method of the game that is run when the start button is hit from the intro screen. This method is responsible for taking input from the user and updating the board nested list in the board class accordingly. This method is tightly tied in to the board class as it is also responsible for highlighting the possible moves when the user clicks a piece and then updating the board in both the board class and the gui to reflect the changes to the game state. If you notice a gameplay bug and would like to try fixing it this would be the place to do so. This method is also responsible for calling the board classes move method when the player moves a piece. Each time an action is taken, the gui updates the screen to reflect what has been changed. 
 
+## Extending our code
+If you wish to extend our code, here are a few things to get you started:
+* Fix queen so it cannot jump over king and other pieces
+* Fix the rooks on the right hand side so they can move
+* Get check and checkmate to work
+* Add a game over screen
+* Display the game status (whose turn it is, which pieces have been captured, show if players are in check etc.)
+* Add other gamemodes
+  * blitz chess
+  * bullet chess
+  * a best of x series
+  * player vs ai
+
 ## Individual Contributions
 ### Taha
 My prominent role in this project was providing back-end functionality of the board, pieces and piece movement. The main priority was to ensure that valid moves can be selected by the player to ensure accurate game logic is followed. Furthermore, I was able to provide a representation of the game that was understandable and easily integratable for the Front-End team. For the README, I provided documentation on the Board Class - which was also the main class I was working with for this project.  
+
+### Adrian Lam
+For the code, I mainly worked on the GUI. This includes initializing the board and pieces, the starting animation, selecting pieces, showing highlighted moves and moving the pieces. To provide some feedback for the user, I made the piece flash red when the user clicks on one of the opponent's pieces. There were also a few GUI issues that I fixed when other features were introduced. For example, the timer flashes whenever the user clicks and the inconsistent piece colours in the board class that caused an issue where certain pieces cannot be selected. For the README, I wrote the How To Play  and Extending Our Code sections.
 
 
 ## License information
