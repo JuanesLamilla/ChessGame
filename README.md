@@ -1,2 +1,7 @@
-# csc290
-CSC290 repo as part of the term project 
+# Chess
+Chess game created using `python` and `pygame`
+## Installation
+## How To Play
+## Documentation
+## Individual Contributions
+## License
