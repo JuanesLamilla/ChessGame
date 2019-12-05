@@ -23,9 +23,15 @@ Since all the valid moves are highlighted, this game does not require any knowle
 In our game's current form there are two main classes that we ended up using. The board class and the gui class. I will briefly describe the purpose of each class below:
 ### Board Class
 The board class acts as a representation of the chess board and holds all the positions of the pieces in a nested list. Tiles that are empty are represented in the nested list as a 0. The board class is also responsible for checking the valid moves of selected pieces and actually moving the pieces that the player has moved. In the board class there are a few main functions described below:
+
 #### create_board():
 This is where the chess board nested list is created and all the pieces are placed in their starting positions. If you wanted to change the initial starting positions of the pieces this is where you would do it.
-#### move():
+
+#### move(old_coord, new_coord)::
+Allows the piece at coordinate old_cord to new_cord. This function is called when the user executes their move.
+
+#### get_valid_moves(self, coordinate):
+If a piece is at coordinate, it returns the a list of tuples - where each tuple represents a valid coordinate it can move to. Unique helper functions were created for each piece - for example the logic of the Knight piece movement was done so in the helper function get_knight_moves() - which is potentially called if knight is a coordinate.
 
 ### Gui Class
 The gui class is where the window is created wherein the user can interact with and see what the board looks like. The gui class is also responsible for handling user input through clicks and displaying the updated board after each move. In the gui class there are many methods some of which will be explained below:
@@ -47,6 +53,9 @@ This method is used to set up the intro screen that appears when the game is fir
 This is the main method of the game that is run when the start button is hit from the intro screen. This method is responsible for taking input from the user and updating the board nested list in the board class accordingly. This method is tightly tied in to the board class as it is also responsible for highlighting the possible moves when the user clicks a piece and then updating the board in both the board class and the gui to reflect the changes to the game state. If you notice a gameplay bug and would like to try fixing it this would be the place to do so. This method is also responsible for calling the board classes move method when the player moves a piece. Each time an action is taken, the gui updates the screen to reflect what has been changed. 
 
 ## Individual Contributions
+### Taha
+My prominent role in this project was providing back-end functionality of the board, pieces and piece movement. The main priority was to ensure that valid moves can be selected by the player to ensure accurate game logic is followed. Furthermore, I was able to provide a representation of the game that was understandable and easily integratable for the Front-End team. For the README, I provided documentation on the Board Class - which was also the main class I was working with for this project.  
+
 
 ## License information
 MIT License
