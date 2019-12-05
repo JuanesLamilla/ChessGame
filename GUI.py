@@ -28,7 +28,7 @@ class GUI:
         """
         Draws the chess board on the given screen, according to the given width.
         """
-        self.screen.fill(pygame.Color(255, 255, 255))
+        self.screen.fill(pygame.Color(255, 255, 255), (0,0,self.width,self.width))
         y = 0
         grid_width = self.width / 8
         for row in range(8):
@@ -168,11 +168,8 @@ class GUI:
             pygame.display.set_icon(piece_image)
 
             self.screen.fill(self.white)
-            large_text = pygame.font.Font('freesansbold.ttf', 115)
-            text_surf = large_text.render("Chess", True, self.black)
-            text_rect = text_surf.get_rect()
-            text_rect.center = ((self.width/2), (self.width/2) - 50)
-            self.screen.blit(text_surf, text_rect)
+            logo = pygame.image.load("logo.png")
+            self.screen.blit(logo, (0,-70))
 
             self.button("START", 125, 230, 175, 50, self.grey, self.black, self.main)
             self.button("SETTINGS", 125, 300, 175, 50, self.grey, self.black, self.settings)
@@ -184,13 +181,13 @@ class GUI:
     def main(self):
         grid_width = self.width / 8
 
-        height = 500
+        height = 455
         if self.timer:
             pygame.display.set_mode((self.width, height))
             pygame.display.update()
 
         board = Board()
-        animation = False
+        animation = True
         self.draw_board(animation)
         self.draw_pieces(board, animation)
         pygame.display.update()
@@ -201,12 +198,6 @@ class GUI:
         time_two = 300
 
         pygame.time.set_timer(pygame.USEREVENT, 1000)
-
-        if animation:
-            logo = pygame.image.load("logo.png")
-            self.screen.blit(logo, (0,1))
-            pygame.time.delay(400)
-            pygame.display.update()
 
         running = True
         while running:
@@ -225,9 +216,9 @@ class GUI:
                         time_two -= 1
 
                     self.button(seconds_to_clock(time_one),
-                                20, 425, 175, 50, self.black, self.black)
+                                20, 405, 175, 50, self.black, self.black)
                     self.button(seconds_to_clock(time_two),
-                                205, 425, 175, 50, self.black, self.black)
+                                205, 405, 175, 50, self.black, self.black)
 
                     pygame.display.update()
 
