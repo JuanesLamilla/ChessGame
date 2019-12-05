@@ -1,6 +1,43 @@
+<p align=center>
+    <img src="https://github.com/tahazulfiqar/csc290/blob/master/Screenshots/logo.PNG">
+</p>
+
+<p align="center">
+  <a href="#installation">Installation</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#how-to-play">How To Play</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#documentation">Documentation</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#individual-contributions">Individual Contributions</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#license-information">License Information</a>
+</p>
+
+
 # Chess
 Chess game created using `python` and `pygame`
+
 ## Installation
+**NOTE**: Python 3.7 or higher is required to run the game.
+
+```bash
+# clone the repo
+$ git clone https://github.com/tahazulfiqar/csc290.git
+
+# change the working directory to csc290
+$ cd csc290
+
+# install pygame (version 1.9.7 or higher) if it is not already installed
+$ python3 -m pip install -U pygame --user
+
+# run GUI.py to start the game
+$ GUI.py
+```
+
+If further help is needed to install pygame, go to:
+https://www.pygame.org/wiki/GettingStarted
+
 ## How To Play
 When the game launches, the user will be greeted with a title screen where the user can either start the game or change settings.
 
