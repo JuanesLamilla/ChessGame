@@ -20,6 +20,14 @@ Chess is a turn based game so after every move, the other player makes the next 
 Since all the valid moves are highlighted, this game does not require any knowledge of chess to play. However, you can click [here](https://www.chess.com/learn-how-to-play-chess) if you are interested to learn more.
 
 ## Documentation
+In our game's current form there are two main classes that we ended up using. The board class and the gui class. I will briefly describe the purpose of each class below:
+### Board Class
+The board class acts as a representation of the chess board and holds all the positions of the pieces in a nested list. Tiles that are empty are represented in the nested list as a 0. The board class is also responsible for checking the valid moves of selected pieces and actually moving the pieces that the player has moved. In the board class there are a few main functions described below:
+#### create_board():
+This is where the chess board nested list is created and all the pieces are placed in their starting positions. If you wanted to change the initial starting positions of the pieces this is where you would do it.
+#### move():
+
+
 ## Individual Contributions
 
 ## License information
