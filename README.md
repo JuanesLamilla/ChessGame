@@ -45,7 +45,11 @@ In our game's current form there are two main classes that we ended up using. Th
 The board class acts as a representation of the chess board and holds all the positions of the pieces in a nested list. Tiles that are empty are represented in the nested list as a 0. The board class is also responsible for checking the valid moves of selected pieces and actually moving the pieces that the player has moved. In the board class there are a few main functions described below:
 #### create_board():
 This is where the chess board nested list is created and all the pieces are placed in their starting positions. If you wanted to change the initial starting positions of the pieces this is where you would do it.
-#### move():
+#### move(old_coord, new_coord)::
+Allows the piece at coordinate old_cord to new_cord. This function is called when the user executes their move.
+#### get_valid_moves(self, coordinate):
+If a piece is at coordinate, it returns the a list of tuples - where each tuple represents a valid coordinate it can move to. 
+Unique helper functions were created for each piece - for example the logic of the Knight piece movement was done so in the helper function get_knight_moves() - which is potentially called if knight is a coordinate. 
 
 
 ## Individual Contributions
