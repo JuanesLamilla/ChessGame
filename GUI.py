@@ -178,13 +178,49 @@ class GUI:
         pygame.display.quit()
         pygame.quit()
 
+    def winner_screen(self, winner: str, msg: str):
+        print("winner screen started")
+        intro = True
+
+        while intro:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    intro = False
+
+            piece_image = pygame.image.load("PiecesPNG/BRook.png")
+            pygame.display.set_icon(piece_image)
+
+            self.screen.fill(self.white)
+
+            large_text = pygame.font.Font('freesansbold.ttf', 50)
+            winner_text = "Player " + winner + " wins!"
+            text_surf = large_text.render(winner_text, True, self.black)
+            text_rect = text_surf.get_rect()
+            text_rect.center = ((self.width / 2), (self.width / 2) - 50)
+            self.screen.blit(text_surf, text_rect)
+
+            large_text = pygame.font.Font('freesansbold.ttf', 20)
+            text_surf = large_text.render(msg, True, self.black)
+            text_rect = text_surf.get_rect()
+            text_rect.center = ((self.width / 2), (self.width / 2) - 10)
+            self.screen.blit(text_surf, text_rect)
+
+            self.button("GO AGAIN", 125, 230, 175, 50, self.grey, self.black, self.main)
+            self.button("SETTINGS", 125, 300, 175, 50, self.grey, self.black, self.settings)
+
+            pygame.display.update()
+        pygame.display.quit()
+        pygame.quit()
+
     def main(self):
         grid_width = self.width / 8
 
         height = 455
         if self.timer:
             pygame.display.set_mode((self.width, height))
-            pygame.display.update()
+        else:
+            pygame.display.set_mode((self.width, self.width))
+        pygame.display.update()
 
         board = Board()
         animation = True
@@ -223,9 +259,9 @@ class GUI:
                     pygame.display.update()
 
                     if time_one == 0:
-                        pass  # TODO: Player 2 wins
+                        self.winner_screen("2", "Player 1 ran out of time.")
                     elif time_two == 0:
-                        pass  # TODO: Player 1 wins
+                        self.winner_screen("1", "Player 2 ran out of time.")
 
                 if event.type == pygame.QUIT:
                     running = False
