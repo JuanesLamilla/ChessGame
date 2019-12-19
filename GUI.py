@@ -156,7 +156,6 @@ class GUI:
         pygame.quit()
 
     def intro_screen(self):
-        print("intro screen started")
         intro = True
 
         while intro:
@@ -179,7 +178,6 @@ class GUI:
         pygame.quit()
 
     def winner_screen(self, winner: str, msg: str):
-        print("winner screen started")
         intro = True
 
         while intro:
@@ -278,19 +276,19 @@ class GUI:
                     # select piece
                     if selected != 0 and selected.colour == board.cur_turn:
                         pygame.draw.rect(self.screen, pygame.Color(78, 222, 188),
-                                 pygame.Rect(x * grid_width,y * grid_width,
-                                             grid_width,grid_width))
-                        valid_moves = board.get_valid_moves((y,x))
-                        selected_coord = (y,x)
+                                 pygame.Rect(x * grid_width, y * grid_width,
+                                             grid_width, grid_width))
+                        valid_moves = board.get_valid_moves((y, x))
+                        selected_coord = (y, x)
                         if valid_moves:
                             for move in valid_moves:
                                 pygame.draw.rect(self.screen, pygame.Color(78, 222, 188),
                                      pygame.Rect(move[1] * grid_width + 3,move[0] *
-                                                 grid_width + 3, grid_width - 6,grid_width - 6))
+                                                 grid_width + 3, grid_width - 6, grid_width - 6))
 
                     # show red square when user clicks on the opponent's piece
                     elif selected != 0 and selected.colour != board.cur_turn\
-                            and not board.can_capture(selected_coord, (y,x)):
+                            and not board.can_capture(selected_coord, (y, x)):
 
                         pygame.draw.rect(self.screen, pygame.Color(255, 0, 0),
                                  pygame.Rect(x * grid_width,y * grid_width,

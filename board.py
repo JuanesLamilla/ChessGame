@@ -200,7 +200,7 @@ class Board(object):
                     if isinstance(self.board[i][cur_y], pieces.Piece):
                         break
 
-            for i in range(cur_x+1, 8):
+            for i in range(cur_x + 1, 8):
 
                 if self.is_blocked((i, cur_y), False):
                     break
@@ -213,7 +213,7 @@ class Board(object):
 
         else:
 
-            for i in range(cur_x-1, -1 , -1):
+            for i in range(cur_x-1, -1, -1):
 
                 if self.is_blocked((i, cur_y), False):
                     break
@@ -238,6 +238,8 @@ class Board(object):
         # y-axis movement
 
         for j in range(0, cur_y):
+
+            j = cur_y - 1 - j
 
             if self.is_blocked((cur_x, j), False):
                 break
@@ -392,7 +394,7 @@ class Board(object):
         for i in range(8):
             for j in range(8):
 
-                if isinstance(self.return_valid_piece((i,j)), pieces.Piece):
+                if isinstance(self.return_valid_piece((i, j)), pieces.Piece):
 
                     piece = self.board[i][j]
                     coord = (i, j)
@@ -485,10 +487,6 @@ class Board(object):
         called by move and gui to check if the tile that the player is tying
         to move to is occupied by an opponents piece that can be captured.
         """
-        old_x = old_cord[0]
-        old_y = old_cord[1]
-        new_x = new_cord[0]
-        new_y = new_cord[1]
         if self.return_valid_piece(old_cord) == 0:
             return False
         if self.return_valid_piece(old_cord).colour != \
