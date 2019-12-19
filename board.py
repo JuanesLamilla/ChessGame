@@ -11,6 +11,8 @@ class Board(object):
         Represents the player who has the current move. ('B' or 'W')
     board:
         Represents the game board in a 8x8 Python list.
+    check_state:
+        Represents which player is in check, empty string if none.
     """
 
     def __init__(self):
@@ -20,6 +22,7 @@ class Board(object):
         """
         self.cur_turn = 'W'
         self.board = self.create_board()
+        self.check = ""
 
     def get_valid_moves(self, coordinate):
         """
@@ -377,11 +380,7 @@ class Board(object):
         else:
             opp_moves = self.get_all_moves('B')['W']
 
-        print("opp ", opp_moves)
-
         king_movement = self.basic_king_moves(coordinate)
-
-        print("King ", king_movement)
 
         valid_moves = [x for x in king_movement if x not in opp_moves]
 

@@ -263,30 +263,10 @@ class GUI:
 
                 if event.type == pygame.QUIT:
                     running = False
+
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     x = int(event.pos[0] // grid_width)
                     y = int(event.pos[1] // grid_width)
-
-                    # # Check for check
-                    # all_moves = board.get_all_moves()
-                    # if board.cur_turn == 'B':
-                    #     for move in all_moves['W']:
-                    #
-                    #         coord_piece = board.return_valid_piece(move)
-                    #
-                    #         if isinstance(coord_piece, pieces.King) and \
-                    #                 coord_piece.colour == 'B':
-                    #             print("Check on black")
-                    # else:
-                    #     print(all_moves)
-                    #     for move in all_moves['B']:
-                    #
-                    #         print(move)
-                    #         coord_piece = board.return_valid_piece(move)
-                    #
-                    #         if isinstance(coord_piece, pieces.King) and \
-                    #                 coord_piece.colour == 'W':
-                    #             print("Check on white")
 
                     if y >= 8:
                         break
@@ -323,6 +303,72 @@ class GUI:
                     elif (selected == 0 or board.can_capture(selected_coord, (y, x)))\
                             and valid_moves and (y, x) in valid_moves:
                         board.move(selected_coord, (y, x))
+
+                    # Check for check
+                    all_moves = board.get_all_moves()
+                    if board.cur_turn == 'B':
+                        for move in all_moves['W']:
+
+                            coord_piece = board.return_valid_piece(move)
+
+                            if isinstance(coord_piece, pieces.King) and \
+                                    coord_piece.colour == 'B':
+                                board.check = 'B'
+                                print("Check on black")
+                                break
+                            else:
+                                board.check = ''
+                    else:
+                        for move in all_moves['B']:
+
+                            coord_piece = board.return_valid_piece(move)
+
+                            if isinstance(coord_piece, pieces.King) and \
+                                    coord_piece.colour == 'W':
+                                board.check = 'W'
+                                print("Check on white")
+                                break
+                            else:
+                                board.check = ''
+
+                    # Check for checkmate
+                    for i in range(8):
+                        for j in range(8):
+
+                            if isinstance(board.return_valid_piece((i, j)),
+                                          pieces.King):
+
+                                piece = board.board[i][j]
+                                coord = (i, j)
+
+                                print("Check: ", board.check)
+                                print(piece.colour)
+                                print(board.get_valid_moves(coord))
+
+                                if board.check == 'B' and piece.colour == 'B' \
+                                        and board.get_valid_moves(coord) == []:
+                                    self.winner_screen("1", "Checkmate!")
+
+                                if board.check == 'W' and piece.colour == 'W' \
+                                        and board.get_valid_moves(coord) == []:
+                                    self.winner_screen("2", "Checkmate!")
+
+
+
+
+                    # for move in board.get_all_moves()['B']:
+                    #     x = move[1]
+                    #     y = move[0]
+                    #     pygame.draw.rect(self.screen, pygame.Color(0, 255, 0),
+                    #              pygame.Rect(x * grid_width,y * grid_width,
+                    #                          grid_width,grid_width))
+                    #
+                    # for move in board.get_all_moves()['W']:
+                    #     x = move[1]
+                    #     y = move[0]
+                    #     pygame.draw.rect(self.screen, pygame.Color(0, 0, 255),
+                    #              pygame.Rect(x * grid_width,y * grid_width,
+                    #                          grid_width,grid_width))
 
                     self.draw_pieces(board, False)
                     pygame.display.update()
