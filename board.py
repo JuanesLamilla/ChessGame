@@ -21,7 +21,6 @@ class Board(object):
         self.cur_turn = 'W'
         self.board = self.create_board()
 
-
     def get_valid_moves(self, coordinate):
         """
         Returns a list of valid moves for the piece at a given coordinate
@@ -47,7 +46,6 @@ class Board(object):
         if isinstance(coord_piece, pieces.King):
             return self.basic_king_moves(coordinate)
 
-
     def get_pawn_moves(self, coordinate):
         """
         Returns a list of valid moves for the pawn piece at a given coordinate.
@@ -59,65 +57,72 @@ class Board(object):
 
         valid_moves = []
 
-        #if player Black
+        # if player Black
         if self.cur_turn == 'B':
 
-            #case for pawn's first move
-            if cur_pawn._start:
+            # Case for pawn's first move
+            if cur_pawn.start:
                 for i in range(cur_x + 1, cur_x + 3):
                     potential_coord = (i, cur_y)
 
-                    if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                    if not self.is_blocked(potential_coord, True) and \
+                            self.is_boundary(potential_coord):
                         valid_moves.append(potential_coord)
 
-            #case for pawn's 2nd move and beyond
+            # Case for pawn's 2nd move and beyond
             else:
                 potential_coord = (cur_x+1, cur_y)
 
-                if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                if not self.is_blocked(potential_coord, True) and \
+                        self.is_boundary(potential_coord):
                     valid_moves.append(potential_coord)
 
-            #if there is a black piece located diagnoally:
+            # If there is a black piece located diagonally:
 
-            if self.is_boundary((cur_x+1, cur_y +1)):
-                potential_piece = self.return_valid_piece((cur_x+1, cur_y+1))
-                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
-                    valid_moves.append((cur_x+1, cur_y+1))
+            if self.is_boundary((cur_x + 1, cur_y + 1)):
+                potential_piece = self.return_valid_piece((cur_x+1, cur_y + 1))
+                if potential_piece != 0 and \
+                        potential_piece.colour != self.cur_turn:
+                    valid_moves.append((cur_x + 1, cur_y + 1))
 
-            if self.is_boundary((cur_x+1, cur_y -1)):
-                potential_piece = self.return_valid_piece((cur_x+1, cur_y-1))
-                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
-                    valid_moves.append((cur_x+1, cur_y-1))
+            if self.is_boundary((cur_x + 1, cur_y - 1)):
+                potential_piece = self.return_valid_piece((cur_x+1, cur_y - 1))
+                if potential_piece != 0 and \
+                        potential_piece.colour != self.cur_turn:
+                    valid_moves.append((cur_x + 1, cur_y - 1))
 
-        #if player white
+        # If player white
 
         else:
-
-            #case for pawn's first move
-            if cur_pawn._start:
-                for i in range(cur_x -2, cur_x):
+            # Case for pawn's first move
+            if cur_pawn.start:
+                for i in range(cur_x - 2, cur_x):
                     potential_coord = (i, cur_y)
 
-                    if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                    if not self.is_blocked(potential_coord, True) and \
+                            self.is_boundary(potential_coord):
                         valid_moves.append(potential_coord)
 
-            #case for pawn's 2nd move and beyond
+            # Case for pawn's 2nd move and beyond
             else:
                 potential_coord = (cur_x-1, cur_y)
 
-                if not self.is_blocked(potential_coord, True) and self.is_boundary(potential_coord):
+                if not self.is_blocked(potential_coord, True) and \
+                        self.is_boundary(potential_coord):
                     valid_moves.append(potential_coord)
 
-            #if there is a black piece located diagnoally:
+            # If there is a black piece located diagonally:
 
             if self.is_boundary((cur_x-1, cur_y -1)):
                 potential_piece = self.return_valid_piece((cur_x-1, cur_y-1))
-                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
+                if potential_piece != 0 and \
+                        potential_piece.colour != self.cur_turn:
                     valid_moves.append((cur_x-1, cur_y-1))
 
             if self.is_boundary((cur_x-1, cur_y +1)):
                 potential_piece = self.return_valid_piece((cur_x-1, cur_y+1))
-                if potential_piece != 0 and potential_piece.colour != self.cur_turn:
+                if potential_piece != 0 and \
+                        potential_piece.colour != self.cur_turn:
                     valid_moves.append((cur_x-1, cur_y+1))
 
         return valid_moves
@@ -132,36 +137,43 @@ class Board(object):
 
         valid_moves = []
 
-        #fwd left cases
-        if self.is_boundary((cur_x-2, cur_y-1)) and not self.is_blocked((cur_x-2, cur_y-1), False):
+        # fwd left cases
+        if self.is_boundary((cur_x-2, cur_y-1)) and \
+                not self.is_blocked((cur_x-2, cur_y-1), False):
             valid_moves.append((cur_x-2, cur_y-1))
 
-        if self.is_boundary((cur_x-1, cur_y-2)) and not self.is_blocked((cur_x-1, cur_y-2), False):
+        if self.is_boundary((cur_x-1, cur_y-2)) and \
+                not self.is_blocked((cur_x-1, cur_y-2), False):
             valid_moves.append((cur_x-1, cur_y-2))
 
-        #fwd right cases
-        if self.is_boundary((cur_x-2, cur_y+1)) and not self.is_blocked((cur_x-2, cur_y+1), False):
+        # fwd right cases
+        if self.is_boundary((cur_x-2, cur_y+1)) and \
+                not self.is_blocked((cur_x-2, cur_y+1), False):
             valid_moves.append((cur_x-2, cur_y+1))
 
-        if self.is_boundary((cur_x-1, cur_y+2)) and not self.is_blocked((cur_x-1, cur_y+2), False):
+        if self.is_boundary((cur_x-1, cur_y+2)) and \
+                not self.is_blocked((cur_x-1, cur_y+2), False):
             valid_moves.append((cur_x-1, cur_y+2))
 
-        #bwrd left cases
-        if self.is_boundary((cur_x+2, cur_y-1)) and not self.is_blocked((cur_x+2, cur_y-1), False):
+        # bwrd left cases
+        if self.is_boundary((cur_x+2, cur_y-1)) and \
+                not self.is_blocked((cur_x+2, cur_y-1), False):
             valid_moves.append((cur_x+2, cur_y-1))
 
-        if self.is_boundary((cur_x+1, cur_y-2)) and not self.is_blocked((cur_x+1, cur_y-2), False):
+        if self.is_boundary((cur_x+1, cur_y-2)) and \
+                not self.is_blocked((cur_x+1, cur_y-2), False):
             valid_moves.append((cur_x+1, cur_y-2))
 
-        #bwrd right cases
-        if self.is_boundary((cur_x+2, cur_y+1)) and not self.is_blocked((cur_x+2, cur_y+1), False):
+        # bwrd right cases
+        if self.is_boundary((cur_x+2, cur_y+1)) and \
+                not self.is_blocked((cur_x+2, cur_y+1), False):
             valid_moves.append((cur_x+2, cur_y+1))
 
-        if self.is_boundary((cur_x+1, cur_y+2)) and not self.is_blocked((cur_x+1, cur_y+2), False):
+        if self.is_boundary((cur_x+1, cur_y+2)) and \
+                not self.is_blocked((cur_x+1, cur_y+2), False):
             valid_moves.append((cur_x+1, cur_y+2))
 
         return valid_moves
-
 
     def get_rook_moves(self, coordinate):
         """
@@ -173,7 +185,7 @@ class Board(object):
 
         valid_moves = []
 
-        #x-axis movement
+        # x-axis movement
 
         if self.cur_turn == 'B':
 
@@ -223,7 +235,7 @@ class Board(object):
                     if isinstance(self.board[i][cur_y], pieces.Piece):
                         break
 
-        #y-axis movement
+        # y-axis movement
 
         for j in range(0, cur_y):
 
@@ -258,46 +270,57 @@ class Board(object):
         cur_y = coordinate[1]
         valid_moves = []
 
-        #top left movement
+        # top left movement
         top_left_movement = (-1, -1)
         potential_coord = tuple(map(sum, zip(coordinate, top_left_movement)))
 
-        while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
+        while self.is_boundary(potential_coord) and \
+                not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
-            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]],
+                          pieces.Piece):
                 break
-            potential_coord = tuple(map(sum, zip(potential_coord, top_left_movement)))
+            potential_coord = tuple(map(sum, zip(potential_coord,
+                                                 top_left_movement)))
 
-
-        #top right movement
+        # top right movement
         top_right_movement = (1, 1)
         potential_coord = tuple(map(sum, zip(coordinate, top_right_movement)))
 
-        while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
+        while self.is_boundary(potential_coord) and \
+                not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
-            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]],
+                          pieces.Piece):
                 break
-            potential_coord = tuple(map(sum, zip(potential_coord, top_right_movement)))
+            potential_coord = tuple(map(sum, zip(potential_coord,
+                                                 top_right_movement)))
 
-        #bottom left movement
+        # bottom left movement
         bot_left_movement = (1, -1)
         potential_coord = tuple(map(sum, zip(coordinate, bot_left_movement)))
 
-        while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
+        while self.is_boundary(potential_coord) and \
+                not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
-            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]],
+                          pieces.Piece):
                 break
-            potential_coord = tuple(map(sum, zip(potential_coord, bot_left_movement)))
+            potential_coord = tuple(map(sum, zip(potential_coord,
+                                                 bot_left_movement)))
 
-        #bottom right movement
+        # bottom right movement
         bot_right_movement = (-1, 1)
         potential_coord = tuple(map(sum, zip(coordinate, bot_right_movement)))
 
-        while self.is_boundary(potential_coord) and not self.is_blocked(potential_coord, False):
+        while self.is_boundary(potential_coord) and \
+                not self.is_blocked(potential_coord, False):
             valid_moves.append(potential_coord)
-            if isinstance(self.board[potential_coord[0]][potential_coord[1]], pieces.Piece):
+            if isinstance(self.board[potential_coord[0]][potential_coord[1]],
+                          pieces.Piece):
                 break
-            potential_coord = tuple(map(sum, zip(potential_coord, bot_right_movement)))
+            potential_coord = tuple(map(sum, zip(potential_coord,
+                                                 bot_right_movement)))
 
         return valid_moves
 
@@ -321,20 +344,23 @@ class Board(object):
         cur_y = coordinate[1]
         valid_moves = []
 
-        #Left/right side movement
+        # Left/right side movement
         for i in range(-1, 2):
             potential_coord_left = (cur_x+i, cur_y - 1)
             potential_coord_right = (cur_x+i, cur_y + 1)
 
             if i != 0:
                 potential_coord_center = (cur_x+i, cur_y)
-                if self.is_boundary(potential_coord_center) and not self.is_blocked(potential_coord_center, False):
+                if self.is_boundary(potential_coord_center) and \
+                        not self.is_blocked(potential_coord_center, False):
                     valid_moves.append(potential_coord_center)
 
-            if self.is_boundary(potential_coord_left) and not self.is_blocked(potential_coord_left, False):
+            if self.is_boundary(potential_coord_left) and \
+                    not self.is_blocked(potential_coord_left, False):
                 valid_moves.append(potential_coord_left)
 
-            if self.is_boundary(potential_coord_right) and not self.is_blocked(potential_coord_right, False):
+            if self.is_boundary(potential_coord_right) and \
+                    not self.is_blocked(potential_coord_right, False):
                 valid_moves.append(potential_coord_right)
 
         return valid_moves
@@ -387,14 +413,14 @@ class Board(object):
         cur_y = coordinate[1]
 
         piece = self.board[cur_x][cur_y]
-        #print ("block_check")
-        #If nothing at coordinate, then it's a safe move.
+
+        # If nothing at coordinate, then it's a safe move.
         if piece == 0:
             return False
 
         else:
 
-            #action passed if its a pawn - it can't attack straight on.
+            # Action passed if its a pawn - it can't attack straight on.
             if is_pawn:
                 return True
 
@@ -416,7 +442,6 @@ class Board(object):
         else:
             return True
 
-
     def return_valid_piece(self, coordinate):
         """
         Returns a piece at the coordinate - if it exists.
@@ -426,13 +451,12 @@ class Board(object):
         cur_x = coordinate[0]
         cur_y = coordinate[1]
 
-        #if coordinate contains a piece
+        # If coordinate contains a piece
         if self.board[cur_x][cur_y] != 0:
             return self.board[cur_x][cur_y]
 
         else:
             return 0
-
 
     def move(self, old_coord, new_coord):
         """
@@ -480,7 +504,6 @@ class Board(object):
         """
         return str(np.matrix(self.board))
 
-
     def create_board(self):
         """
         Creates the initial game board required for Chess.
@@ -490,98 +513,41 @@ class Board(object):
         #TODO replace the strings with actual pieces from the pieces class
         """
 
-        board = [[0 for y in range(8)] for x in range(8)]
+        board = [[0 for _ in range(8)] for _ in range(8)]
 
-        #Placing the Rooks
+        # Placing the Rooks
 
         board[0][0] = pieces.Rook('B')
         board[0][7] = pieces.Rook('B')
         board[7][0] = pieces.Rook('W')
         board[7][7] = pieces.Rook('W')
 
-        #Placing the Knights
+        # Placing the Knights
 
         board[0][1] = pieces.Knight('B')
         board[0][6] = pieces.Knight('B')
         board[7][1] = pieces.Knight('W')
         board[7][6] = pieces.Knight('W')
 
-        #Placing the Bishops
+        # Placing the Bishops
 
         board[0][2] = pieces.Bishop('B')
         board[0][5] = pieces.Bishop('B')
         board[7][2] = pieces.Bishop('W')
         board[7][5] = pieces.Bishop('W')
 
-        #Placing the Queens
+        # Placing the Queens
         board[0][3] = pieces.Queen('B')
         board[7][3] = pieces.Queen('W')
 
-        #Placing the Kings
+        # Placing the Kings
         board[0][4] = pieces.King('B')
         board[7][4] = pieces.King('W')
 
-        #Placing the Pawns
+        # Placing the Pawns
 
         for i in range(8):
             board[1][i] = pieces.Pawn('B')
             board[6][i] = pieces.Pawn('W')
 
         return board
-
-
-#For Testing
-if __name__ == '__main__':
-    chess_board = Board()
-    ''' Knight Test
-    chess_board.cur_turn = 'B'
-    chess_board.move((0,1), (3,3))
-    print(chess_board.get_valid_moves((3,3)))
-    '''
-
-
-    #Rook Test
-    '''
-    chess_board.cur_turn = 'B'
-    chess_board.move((1,0), (7,7))
-    chess_board.move((0,0), (2,0))
-    '''
-    '''
-    chess_board.move((6,7), (0,0))
-    chess_board.move((7,7), (3,3))
-    print(chess_board.get_valid_moves((3,3)))
-    '''
-
-    '''
-    #Bishop Test
-    chess_board.move((7,5), (4,3))
-    print(chess_board.board[4][3])
-    print(chess_board.get_valid_moves((4,3)))
-    '''
-
-    #Moving black pieces to vulnerable positions to be attacked by white pawn
-    #chess_board.move((1,2), (5,2))
-    #chess_board.move((1,3), (5,0))
-
-    #get the valid move for pawn located at (6,1)
-    #print(chess_board.get_valid_moves((6,1)))
-
-    #check case when pawn has already moved
-    #chess_board.move((6,1), (4,1))
-    #print(chess_board.get_valid_moves((4,1)))
-
-    #Testing black's Pawn
-    #chess_board.cur_turn = 'B'
-
-    #Moving white spaces to vulnerable positions to be attacked by black pawn
-    #chess_board.move((6,1), (2,2))
-    #chess_board.move((6,0), (2,0))
-
-    #get the valid move for pawn located at (6,1)
-    #print(chess_board.get_valid_moves((1,2)))
-
-    #print(chess_board.get_valid_moves((1,1)))
-    #chess_board.move((1,2), (2,2))
-
-
-    #print(repr(chess_board))

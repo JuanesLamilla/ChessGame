@@ -16,8 +16,8 @@ class Piece:
 class Pawn(Piece):
     """A chess pawn located on the chess board.
 
-        === Private Attributes ===
-        _start:
+        === Public Attributes ===
+        start:
             True if the pawn has yet to make a move, False if it has moved.
 
         === Inherited Attributes ===
@@ -26,14 +26,14 @@ class Pawn(Piece):
         """
 
     colour: str
-    _start: bool
+    start: bool
 
     def __init__(self, colour: str) -> None:
         Piece.__init__(self, colour)
-        self._start = True
+        self.start = True
 
     def made_first_move(self) -> None:
-        self._start = False
+        self.start = False
 
 
 class Knight(Piece):
