@@ -44,7 +44,7 @@ class Board(object):
             return self.get_queen_moves(coordinate)
 
         if isinstance(coord_piece, pieces.King):
-            return self.basic_king_moves(coordinate)
+            return self.get_king_moves(coordinate)
 
     def get_pawn_moves(self, coordinate):
         """
@@ -372,18 +372,22 @@ class Board(object):
         Returns a list of valid moves for the King piece at a given coordinate
         """
         if self.cur_turn == 'W':
-            opp_moves = self.get_all_moves()['B']
+            opp_moves = self.get_all_moves('W')['B']
 
         else:
-            opp_moves = self.get_all_moves()['W']
+            opp_moves = self.get_all_moves('B')['W']
 
-        king_movement = self.get_king_moves(coordinate)
+        print("opp ", opp_moves)
+
+        king_movement = self.basic_king_moves(coordinate)
+
+        print("King ", king_movement)
 
         valid_moves = [x for x in king_movement if x not in opp_moves]
 
         return valid_moves
 
-    def get_all_moves(self):
+    def get_all_moves(self, current_piece=None):
         """
         Returns a dictionary of all moves.
         Keys are the player and the values are the moves themselves.
@@ -399,11 +403,34 @@ class Board(object):
                     piece = self.board[i][j]
                     coord = (i, j)
 
+                    if current_piece is not None and \
+                            isinstance(piece, pieces.King) and \
+                            piece.colour == current_piece:
+                        break
+
+                    current_turn = self.cur_turn
+
                     if piece.colour == 'W':
-                        white_moves.append(self.get_valid_moves(coord))
+                        self.cur_turn = 'W'
+                        if isinstance(piece, pieces.King):
+                            for move in self.basic_king_moves(coord):
+                                white_moves.append(move)
+                            self.cur_turn = current_turn
+                            break
+                        for move in self.get_valid_moves(coord):
+                            white_moves.append(move)
+                        self.cur_turn = current_turn
 
                     else:
-                        black_moves.append(self.get_valid_moves(coord))
+                        self.cur_turn = 'B'
+                        if isinstance(piece, pieces.King):
+                            for move in self.basic_king_moves(coord):
+                                black_moves.append(move)
+                            self.cur_turn = current_turn
+                            break
+                        for move in self.get_valid_moves(coord):
+                            black_moves.append(move)
+                        self.cur_turn = current_turn
 
         return {'B': black_moves, 'W': white_moves}
 
@@ -414,7 +441,10 @@ class Board(object):
         cur_x = coordinate[0]
         cur_y = coordinate[1]
 
-        piece = self.board[cur_x][cur_y]
+        if cur_x < 8 and cur_y < 8:
+            piece = self.board[cur_x][cur_y]
+        else:
+            return False
 
         # If nothing at coordinate, then it's a safe move.
         if piece == 0:

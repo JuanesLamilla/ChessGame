@@ -221,7 +221,7 @@ class GUI:
         pygame.display.update()
 
         board = Board()
-        animation = True
+        animation = False
         self.draw_board(animation)
         self.draw_pieces(board, animation)
         pygame.display.update()
@@ -267,6 +267,27 @@ class GUI:
                     x = int(event.pos[0] // grid_width)
                     y = int(event.pos[1] // grid_width)
 
+                    # # Check for check
+                    # all_moves = board.get_all_moves()
+                    # if board.cur_turn == 'B':
+                    #     for move in all_moves['W']:
+                    #
+                    #         coord_piece = board.return_valid_piece(move)
+                    #
+                    #         if isinstance(coord_piece, pieces.King) and \
+                    #                 coord_piece.colour == 'B':
+                    #             print("Check on black")
+                    # else:
+                    #     print(all_moves)
+                    #     for move in all_moves['B']:
+                    #
+                    #         print(move)
+                    #         coord_piece = board.return_valid_piece(move)
+                    #
+                    #         if isinstance(coord_piece, pieces.King) and \
+                    #                 coord_piece.colour == 'W':
+                    #             print("Check on white")
+
                     if y >= 8:
                         break
 
@@ -299,7 +320,7 @@ class GUI:
                         self.draw_board(False)
 
                     # move selected piece
-                    elif (selected == 0 or board.can_capture(selected_coord, (y,x)))\
+                    elif (selected == 0 or board.can_capture(selected_coord, (y, x)))\
                             and valid_moves and (y, x) in valid_moves:
                         board.move(selected_coord, (y, x))
 
