@@ -341,10 +341,6 @@ class GUI:
                                 piece = board.board[i][j]
                                 coord = (i, j)
 
-                                print("Check: ", board.check)
-                                print(piece.colour)
-                                print(board.get_valid_moves(coord))
-
                                 if board.check == 'B' and piece.colour == 'B' \
                                         and board.get_valid_moves(coord) == []:
                                     self.winner_screen("1", "Checkmate!")
@@ -352,8 +348,6 @@ class GUI:
                                 if board.check == 'W' and piece.colour == 'W' \
                                         and board.get_valid_moves(coord) == []:
                                     self.winner_screen("2", "Checkmate!")
-
-
 
 
                     # for move in board.get_all_moves()['B']:
